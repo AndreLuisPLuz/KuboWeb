@@ -22,7 +22,7 @@ class User extends Entity {
         this.macAddress = null;
     }
 
-    public createNew = (
+    public static createNew = (
         username: string,
         email: string,
         password: string
