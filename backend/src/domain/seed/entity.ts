@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-class Entity {
+abstract class Entity {
     public _id: string;
 
     constructor(id: string | null = null) {
