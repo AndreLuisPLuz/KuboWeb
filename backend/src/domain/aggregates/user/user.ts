@@ -1,3 +1,5 @@
+import "dotenv/config";
+import bcrypt from "bcryptjs";
 import Entity from "../../seed/entity";
 
 class User extends Entity {
@@ -37,7 +39,12 @@ class User extends Entity {
     };
 
     private static hashPassword = (rawPassword: string): string => {
+        const numSaltRounds = process.env.NODE_ENV == "development" ? 1 : 32;
+        const salt = bcrypt.genSaltSync(numSaltRounds);
 
+        const hash = bcrypt.hashSync(rawPassword, salt);
+
+        return hash;
     };
 }
 
