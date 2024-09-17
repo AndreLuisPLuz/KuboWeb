@@ -23,9 +23,9 @@ class User extends Entity {
     }
 
     public static createNew = (
-        username: string,
-        email: string,
-        password: string
+            username: string,
+            email: string,
+            password: string
     ): User => {
         const hashedPassword = User.hashPassword(password);
 
