@@ -1,38 +1,27 @@
-class SoundOptions {
-    public status: "on" | "off";
-    private _musicVolume: number;
-    private _effectsVolume: number;
+import ValueObject from "../../seed/valueObject";
+import Volume from "./volume";
 
-    public get musicVolume() { return this._musicVolume };
-    public get effectsVolume() { return this._effectsVolume };
+type SoundOptionsProps = {
+    status: "on" | "off";
+    musicVolume: Volume;
+    effectsVolume: Volume;
+};
 
-    public set musicVolume(value: number) {
-        this.checkVolumeBounds(value);
-        this._musicVolume = value;
+class SoundOptions extends ValueObject<SoundOptionsProps> {
+    public get status() { return this.props.status }
+    public get musicVolume() { return this.props.musicVolume };
+    public get effectsVolume() { return this.props.effectsVolume };
+
+    private constructor(props: SoundOptionsProps) {
+        super(props);
     }
 
-    public set effectsVolume(value: number) {
-        this.checkVolumeBounds(value);
-        this._effectsVolume = value;
-    }
-
-    constructor(
-            status: "on" | "off",
-            musicVolume: number,
-            effectsVolume: number
-    ) {
-        this.checkVolumeBounds(musicVolume);
-        this.checkVolumeBounds(effectsVolume);
-
-        this.status = status;
-        this._musicVolume = musicVolume;
-        this._effectsVolume = effectsVolume;
-    }
-
-    private checkVolumeBounds(value: number): void {
-        if (value < 0 || value > 100)
-            throw new Error("Value out of bounds.");
-    }
+    public static createNew = (props: Omit<SoundOptionsProps, "status">): SoundOptions => {
+        return new SoundOptions({
+            status: "on",
+            ...props
+        });
+    };
 }
 
 export default SoundOptions;

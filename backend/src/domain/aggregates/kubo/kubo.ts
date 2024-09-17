@@ -1,8 +1,9 @@
 import Entity from "../../seed/entity";
 import KuboStat from "./kuboStat";
+import Nickname from "./nickname";
 
 type KuboProps = {
-    nickname: string;
+    nickname: Nickname;
     color: string;
     health: KuboStat;
     hunger: KuboStat;

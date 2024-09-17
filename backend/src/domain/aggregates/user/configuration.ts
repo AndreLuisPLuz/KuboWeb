@@ -1,13 +1,23 @@
+import ValueObject from "../../seed/valueObject";
 import SoundOptions from "./soundOptions";
 
-class UserConfiguration {
-    public languagueId: string;
-    public soundOptions: SoundOptions;
+type UserConfigurationProps = {
+    languageId: string;
+    soundOptions: SoundOptions;
+};
 
-    constructor(languageId: string, soundOptions: SoundOptions) {
-        this.languagueId = languageId;
-        this.soundOptions = soundOptions;
+class UserConfiguration extends ValueObject<UserConfigurationProps> {
+    public get languageId() { return this.props.languageId };
+    public get soundOptions() { return this.props.soundOptions };
+
+    private constructor(props: UserConfigurationProps) {
+        super(props);
     }
+
+    public static createNew = (props: UserConfigurationProps): UserConfiguration => {
+        // TODO: language validation
+        return new UserConfiguration(props);
+    };
 }
 
 export default UserConfiguration;
