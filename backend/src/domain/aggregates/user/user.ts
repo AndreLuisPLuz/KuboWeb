@@ -12,6 +12,10 @@ type UserProps = {
 class User extends Entity<UserProps> {
     public configuration: UserConfiguration | null = null;
 
+    public get username() { return this.props.username };
+    public get email() { return this.props.email };
+    public get password() { return this.props.password };
+
     private constructor (
             props: UserProps,
             id: string | null = null,

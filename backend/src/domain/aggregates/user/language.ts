@@ -1,16 +1,19 @@
 import Entity from "../../seed/entity";
 
-class Language extends Entity {
-    public name: string;
+type LanguageProps = {
+    name: string;
+};
 
-    private constructor(name: string, id: string | null = null) {
-        super(id);
-        this.name = name;
+class Language extends Entity<LanguageProps> {
+    private constructor(
+            props: LanguageProps,
+            id: string | null = null
+    ) {
+        super(props, id);
     }
 
-    public static createNew = (name: string): Language => {
-        const newLanguage = new Language(name);
-        return newLanguage;
+    public static createNew = (props: LanguageProps): Language => {
+        return new Language(props);
     };
 }
 
