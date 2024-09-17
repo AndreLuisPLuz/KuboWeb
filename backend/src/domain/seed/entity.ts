@@ -1,10 +1,12 @@
 import { v4 as uuid } from "uuid";
 
-abstract class Entity {
-    public _id: string;
+abstract class Entity<TProps> {
+    protected readonly _id: string;
+    protected props: TProps;
 
-    constructor(id: string | null = null) {
+    constructor(props: TProps, id: string | null = null) {
         this._id = id || uuid();
+        this.props = props;
     }
 }
 

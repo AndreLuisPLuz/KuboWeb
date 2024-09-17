@@ -1,39 +1,27 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
 import Entity from "../../seed/entity";
+import UserConfiguration from "./configuration";
 
-class User extends Entity {
-    public username: string;
-    public email: string;
-    public password: string;
-    public macAddress: string | null;
+type UserProps = {
+    username: string;
+    email: string;
+    password: string;
+};
+
+class User extends Entity<UserProps> {
+    public configuration: UserConfiguration | null = null;
 
     private constructor (
-            username: string,
-            email: string,
-            password: string,
-            id: string | null = null
+            props: UserProps,
+            id: string | null = null,
     ) {
-        super(id);
-
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.macAddress = null;
+        super(props, id);
     }
 
-    public static createNew = (
-            username: string,
-            email: string,
-            password: string
-    ): User => {
-        const hashedPassword = User.hashPassword(password);
-
-        const newUser = new User(
-            username,
-            email,
-            hashedPassword
-        );
+    public static createNew = (props: UserProps): User => {
+        props.password = User.hashPassword(props.password);
+        const newUser = new User(props);
 
         return newUser;
     };
