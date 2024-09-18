@@ -39,7 +39,7 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         return savedEntity;
     };
 
-    abstract loadFromDocument: (document: HydratedDocument<TInterface>) => TEntity;
+    protected abstract loadFromDocument: (document: HydratedDocument<TInterface>) => TEntity;
 }
 
 export default BaseMongoRepository;
