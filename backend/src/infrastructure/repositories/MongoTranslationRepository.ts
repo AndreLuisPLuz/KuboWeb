@@ -34,7 +34,7 @@ class MongoTranslationRepository implements ITranslationRepository {
         return language;
     }
 
-    private loadFromDocument(document: HydratedDocument<ILanguage>): Language {
+    private loadFromDocument = (document: HydratedDocument<ILanguage>): Language => {
         return Language.load(
             { name: document.name },
             document._id
