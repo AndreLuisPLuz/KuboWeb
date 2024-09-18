@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
 abstract class Entity<TProps> {
-    protected readonly _id: string;
+    public readonly _id: string;
     protected props: TProps;
 
     constructor(props: TProps, id: string | null = null) {

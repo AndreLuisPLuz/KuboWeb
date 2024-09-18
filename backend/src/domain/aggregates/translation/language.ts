@@ -15,6 +15,10 @@ class Language extends Entity<LanguageProps> {
     public static createNew = (props: LanguageProps): Language => {
         return new Language(props);
     };
+
+    public static load = (props: LanguageProps, id: string): Language => {
+        return new Language(props, id);
+    };
 }
 
 export default Language;
