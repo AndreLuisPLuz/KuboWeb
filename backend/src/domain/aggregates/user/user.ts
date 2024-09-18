@@ -30,6 +30,10 @@ class User extends Entity<UserProps> {
         return newUser;
     };
 
+    public static load = (props: UserProps): User => {
+        return new User(props);
+    };
+
     private static hashPassword = (rawPassword: string): string => {
         const numSaltRounds = process.env.NODE_ENV == "development" ? 1 : 32;
         const salt = bcrypt.genSaltSync(numSaltRounds);
