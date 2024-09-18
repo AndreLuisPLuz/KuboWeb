@@ -5,7 +5,7 @@ interface ILanguage {
     name: string;
 }
 
-const languageSchema = new Schema({
+const languageSchema = new Schema<ILanguage>({
     _id: { type: String },
     name: { type: String },
 });
