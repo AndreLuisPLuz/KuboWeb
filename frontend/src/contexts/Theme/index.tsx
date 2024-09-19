@@ -22,11 +22,6 @@ const ThemeProvider = (props: ThemeProviderProps): ReactNode => {
     useEffect(() => {
         const isDark = (palette == "dark");
         document.documentElement.classList.toggle("dark", isDark);
-
-        if (palette == "dark")
-            console.log("escuro");
-        else
-            console.log("claro");
     }, [palette]);
 
     return (
