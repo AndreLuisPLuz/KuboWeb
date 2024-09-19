@@ -36,6 +36,7 @@ const Button = styled.button`
 
     background-color: var(--nav-button-bg-color);
     color: var(--nav-button-color);
+    border: 1px solid var(--nav-border-color);
 `;
 
 const ThemeIcon = styled.img`

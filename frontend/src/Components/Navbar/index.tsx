@@ -4,12 +4,7 @@ import { ThemeContext } from "../../contexts/Theme";
 import lightBulb from "../../assets/light-bulb.png";
 
 const Navbar = (): ReactNode => {
-    const { palette, toggleTheme } = useContext(ThemeContext);
-
-    useEffect(() => {
-        const isDark = (palette == "dark");
-        document.documentElement.classList.toggle("dark", isDark);
-    }, [palette]);
+    const { toggleTheme } = useContext(ThemeContext);
 
     return (
         <Nav>

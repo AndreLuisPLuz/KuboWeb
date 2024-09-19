@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 type Theme = {
     palette: "light" | "dark";
@@ -12,12 +12,22 @@ type ThemeProviderProps = {
 };
 
 const ThemeProvider = (props: ThemeProviderProps): ReactNode => {
-    const [palette, setPalette] = useState<"light" | "dark">("dark");
+    const [palette, setPalette] = useState<"light" | "dark">("light");
 
     const toggleTheme = () => {
         const newTheme = (palette == "dark" ? "light" : "dark");
         setPalette(newTheme);
     };
+
+    useEffect(() => {
+        const isDark = (palette == "dark");
+        document.documentElement.classList.toggle("dark", isDark);
+
+        if (palette == "dark")
+            console.log("escuro");
+        else
+            console.log("claro");
+    }, [palette]);
 
     return (
         <ThemeContext.Provider value={{ palette, toggleTheme }}>
