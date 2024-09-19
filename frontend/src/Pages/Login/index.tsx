@@ -1,6 +1,5 @@
 import React from "react";
-import background from "../../assets/capaLogin.png";
-import { Button, Container, Container2, Container3, H1, InputEmail, InputSenha, DivLogin } from "./style";
+import { ButtonEntrar, ButtonRegistrar, Copyright, Container, Container2,  H1, InputEmail, InputSenha, DivLogin } from "./style";
 import BouncingKubo from './BouncingKubo'
 
 const Login = () => {
@@ -17,9 +16,12 @@ const Login = () => {
           <InputSenha id="senha" type="password" placeholder="Digite sua senha" />
           {/* <label htmlFor="senha">Senha</label> */}
         </DivLogin>
-        <Button>Entrar</Button>
+        <ButtonEntrar>Entrar</ButtonEntrar>
+        <ButtonRegistrar>Não tenho conta.</ButtonRegistrar>
       </Container2>
+      <Copyright>© 2024 Kubo Company. Todos os direitos reservados.</Copyright>
     </Container>
+
   );
 }
 

@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import background from "../../assets/capaLogin.png";
 import kubo from "../../assets/kubo.png";
 
 const Container = styled.div`
-    /* background-image: url(${background}); */
     background-color: #0a1c36;
     background-size: 100vw 100vh;
     height: 100vh;
@@ -15,7 +13,6 @@ const Container = styled.div`
     color: #000000;
     font-size: 2rem;
 `;
-
 const Container2 = styled.div`
     background-color: #f7eded;
     width: 550px;
@@ -47,7 +44,7 @@ const H1 = styled.h1`
 
 `;
 
-const ButtonEntrar  = styled.button`
+const Button = styled.button`
     width: 180px;
     font-size: 1rem;
     margin-top: 20px;
@@ -63,22 +60,16 @@ const ButtonEntrar  = styled.button`
     margin-top:100px ;
 `;
 
-const ButtonRegistrar  = styled.button`
-    width: 180px;
-    font-size: 1rem;
-    margin-top: 20px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    &:hover {
-        color: #0056b3;
-    }
-    margin-top:100px ;
-    background: none;
-    border: none;
-    text-decoration: underline;
+const InputNome = styled.input`
+border: none;
+    border-bottom: 2px solid #000000;
+    background: transparent;
+    outline: none;
+    color: #000000;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+
 `;
 
 const InputEmail = styled.input`
@@ -90,7 +81,6 @@ border: none;
     padding: 8px;
     width: 100%; 
     margin-bottom: 16px;
-    font-family: "Audiowide", sans-serif;
 
 `;
 
@@ -103,11 +93,22 @@ border: none;
     padding: 8px;
     width: 100%;
     margin-bottom: 16px;
-    font-family: "Audiowide", sans-serif;
 
 `;
 
-const DivLogin = styled.div`
+const InputConfirmarSenha = styled.input`
+border: none;
+    border-bottom: 2px solid #000000;
+    background: transparent;
+    outline: none;
+    color: #000000;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+
+`;
+
+const DivRegister = styled.div`
 display: flex;
     flex-direction: column;
     width: 350px;
@@ -120,14 +121,4 @@ display: flex;
     }
 `;
 
-const Copyright = styled.div`
-    position: absolute; 
-    bottom: 20px; 
-    left: 50%; 
-    transform: translateX(-50%);
-    font-size: 0.8rem; 
-    color: #f7f7f7; 
-`;
-
-
-export { Copyright, Container, Container2, Container3, H1 , ButtonEntrar, ButtonRegistrar, InputEmail, InputSenha, DivLogin};
+export { Container, Container2, Container3, H1, Button, InputNome, InputEmail, InputConfirmarSenha, InputSenha, DivRegister};
