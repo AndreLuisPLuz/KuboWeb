@@ -27,21 +27,43 @@ const ButtonsContainer = styled.div`
 `;
 
 const Button = styled.button`
-    height: 35px;
+    height: 30px;
     width: fit-content;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     background-color: var(--nav-button-bg-color);
     color: var(--nav-button-color);
 `;
 
-const FlatIcon = styled.img`
-    height: 35px;
-    width: 35px;
+const ThemeIcon = styled.img`
+    height: 32px;
+    width: 32px;
+
+    cursor: pointer;
+`;
+
+const IconBackground = styled.div`
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     background-color: #fff;
+    border-radius: 100%;
     border: 2px solid var(--nav-border-color);
 
     cursor: pointer;
 `;
 
-export { Nav, ButtonsContainer, Button, FlatIcon };
+export {
+    Nav,
+    ButtonsContainer,
+    Button,
+    ThemeIcon,
+    IconBackground
+};

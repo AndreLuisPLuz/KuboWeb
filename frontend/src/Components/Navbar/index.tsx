@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect } from "react";
-import { Button, ButtonsContainer, FlatIcon, Nav } from "./style";
-import lightBulb from "../../assets/light-bulb.png";
+import { Button, ButtonsContainer, ThemeIcon, Nav, IconBackground } from "./style";
 import { ThemeContext } from "../../contexts/Theme";
+import lightBulb from "../../assets/light-bulb.png";
 
 const Navbar = (): ReactNode => {
     const { palette, toggleTheme } = useContext(ThemeContext);
@@ -17,7 +17,9 @@ const Navbar = (): ReactNode => {
                 <Button>Mudar fundo</Button>
                 <Button>Configurações</Button>
             </ButtonsContainer>
-            <FlatIcon src={ lightBulb } onClick={ toggleTheme }/>
+            <IconBackground>
+                <ThemeIcon src={ lightBulb } onClick={ toggleTheme }/>
+            </IconBackground>
         </Nav>
     );
 };
