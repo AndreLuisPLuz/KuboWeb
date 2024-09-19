@@ -35,6 +35,10 @@ class Kubo extends Entity<KuboProps> {
     public static createNew = (props: KuboProps): Kubo => {
         return new Kubo(props);
     };
+
+    public static load = (id: string, props: KuboProps): Kubo => {
+        return new Kubo(props, id);
+    };
 }
 
 export default Kubo;

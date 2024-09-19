@@ -2,18 +2,19 @@ import ValueObject from "../../seed/valueObject";
 
 type KuboStatProps = {
     description: "Health" | "Hunger" | "Happiness";
-    minLevel: 0;
-    maxLevel: 100;
     currentLevel: number;
 };
 
 class KuboStat extends ValueObject<KuboStatProps> {
+    private static readonly minLevel = 0;
+    private static readonly maxLevel = 100;
+
     private constructor(props: KuboStatProps) {
         super(props);
     }
 
-    public createNew = ({ currentLevel, ...props }: KuboStatProps): KuboStat => {
-        if (currentLevel < props.minLevel || currentLevel > props.maxLevel)
+    public static createNew = ({ currentLevel, ...props }: KuboStatProps): KuboStat => {
+        if (currentLevel < this.minLevel || currentLevel > this.maxLevel)
             throw new Error("Stat out of bounds!");
     
         return new KuboStat({ currentLevel, ...props });

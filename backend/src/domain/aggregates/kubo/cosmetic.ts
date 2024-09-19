@@ -1,5 +1,5 @@
 import Entity from "../../seed/entity";
-import CosmeticType from "./cosmeticType";
+import { CosmeticType } from "./cosmeticType";
 
 type CosmeticProps = {
     name: string;

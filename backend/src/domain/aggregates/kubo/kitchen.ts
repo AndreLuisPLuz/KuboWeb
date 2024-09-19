@@ -1,10 +1,8 @@
 import ValueObject from "../../seed/valueObject";
 import Food from "./food";
 
-type FoodOrNull = Food | null;
-
 type KitchenProps = {
-    availableFood: [FoodOrNull, FoodOrNull, FoodOrNull];
+    availableFood: (Food | null)[]
 };
 
 class Kitchen extends ValueObject<KitchenProps> {
@@ -12,6 +10,10 @@ class Kitchen extends ValueObject<KitchenProps> {
 
     private constructor(props: KitchenProps) {
         super(props);
+    }
+
+    public static createNew(props: KitchenProps): Kitchen {
+        return new Kitchen(props);
     }
 }
 

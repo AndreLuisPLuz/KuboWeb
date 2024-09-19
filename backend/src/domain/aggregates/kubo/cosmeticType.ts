@@ -2,7 +2,8 @@ import { match } from "ts-pattern";
 import ValueObject from "../../seed/valueObject";
 
 enum Type {
-    HAT, EYES
+    HAT = "Hat",
+    EYES = "Eyes"
 }
 
 type CosmeticTypeProps = {
@@ -32,4 +33,4 @@ class CosmeticType extends ValueObject<CosmeticTypeProps>
     }
 }
 
-export default CosmeticType;
+export { Type, CosmeticType }
