@@ -1,32 +1,16 @@
-import { ReactNode, useContext } from "react";
-import { ButtonsContainer, DarkNav, LightNav } from "./style";
-import { ThemeContext } from "../../contexts/Theme";
-import { match } from "ts-pattern";
+import { ReactNode } from "react";
+import { Button, ButtonsContainer, FlatIcon, Nav } from "./style";
+import lightBulb from "../../assets/light-bulb.png";
 
 const Navbar = (): ReactNode => {
-    const theme = useContext(ThemeContext);
-
-    return match(theme.palette)
-        .with("light", () =>
-            <LightNav>
-                <NavbarContent/>
-            </LightNav>
-        )
-        .with("dark", () =>
-            <DarkNav>
-                <NavbarContent/>
-            </DarkNav>
-        )
-        .exhaustive();
-};
-
-const NavbarContent = (): ReactNode => {
     return (
-        <>
+        <Nav>
             <ButtonsContainer>
-                
+                <Button>Mudar fundo</Button>
+                <Button>Configurações</Button>
             </ButtonsContainer>
-        </>
+            <FlatIcon src={ lightBulb }/>
+        </Nav>
     );
 };
 

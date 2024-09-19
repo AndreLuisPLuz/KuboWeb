@@ -14,16 +14,9 @@ const Nav = styled.nav`
     align-items: center;
 
     padding: 0 2rem 0 2rem;
-`;
 
-const LightNav = styled(Nav)`
-    background-color: #40a3ff;
-    border-bottom: 2px solid #0056b3;
-`;
-
-const DarkNav = styled(Nav)`
-    background-color: #0056b3;
-    border-bottom: 2px solid #fff;
+    background-color: var(--nav-bg-color);
+    border-bottom: 2px solid var(--nav-border-color);
 `;
 
 const ButtonsContainer = styled.div`
@@ -33,4 +26,20 @@ const ButtonsContainer = styled.div`
     gap: 2rem;
 `;
 
-export { LightNav, DarkNav, ButtonsContainer };
+const Button = styled.button`
+    height: 35px;
+    width: fit-content;
+
+    background-color: var(--nav-button-bg-color);
+    color: var(--nav-button-color);
+`;
+
+const FlatIcon = styled.img`
+    height: 35px;
+    width: 35px;
+
+    background-color: #fff;
+    border: 2px solid var(--nav-border-color);
+`;
+
+export { Nav, ButtonsContainer, Button, FlatIcon };

@@ -19,6 +19,18 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --nav-bg-color: #40a3ff;
+  --nav-border-color: #0056b3;
+  --nav-button-color: #000;
+  --nav-button-bg-color: #fff;
+}
+
+.dark:root {
+  --nav-bg-color: #0056b3;
+  --nav-border-color: #fff;
+  --nav-button-color: #4e4e4e;
+  --nav-button-bg-color: #fff;
 }
 
 a {
