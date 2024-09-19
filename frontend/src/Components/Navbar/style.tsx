@@ -40,6 +40,8 @@ const FlatIcon = styled.img`
 
     background-color: #fff;
     border: 2px solid var(--nav-border-color);
+
+    cursor: pointer;
 `;
 
 export { Nav, ButtonsContainer, Button, FlatIcon };
