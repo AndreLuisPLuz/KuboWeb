@@ -23,7 +23,7 @@ const FooterItemsContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1.5rem;
+    gap: 5rem;
 
     padding: 1rem 2rem 1rem 2rem;
 `;

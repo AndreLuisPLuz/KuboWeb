@@ -36,6 +36,18 @@
   --main-color: #fff;
 }
 
+.health  {
+  --stat-fill-color: #cf5151;
+}
+
+.hunger {
+  --stat-fill-color: #e1f01b;
+}
+
+.happiness {
+  --stat-fill-color: #43d443;
+}
+
 main {
   font-family: "Kanit", sans-serif;
 }
