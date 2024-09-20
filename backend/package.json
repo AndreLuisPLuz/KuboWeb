@@ -4,7 +4,7 @@
   "description": "Kubo's backend application",
   "main": "src/presentation/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx ts-node src/presentation/server.ts"
   },
   "author": "André Luis Pereira da Luz & Maria Selhorst",
   "license": "ISC",
