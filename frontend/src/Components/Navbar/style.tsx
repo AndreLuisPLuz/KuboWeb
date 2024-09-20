@@ -34,8 +34,12 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
 
+    padding: 0.5rem 1rem 0.5rem 1rem;
+
+    font-family: "Kanit", Inter;
     background-color: var(--nav-button-bg-color);
     color: var(--nav-button-color);
+    border-radius: 20px;
     border: 1px solid var(--nav-border-color);
 `;
 
