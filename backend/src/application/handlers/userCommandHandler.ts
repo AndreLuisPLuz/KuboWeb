@@ -3,8 +3,9 @@ import { INFRA_TOKENS } from "../../infrastructure/container";
 
 import User from "../../domain/aggregates/user/user";
 import IRepository from "../../domain/seed/repository";
-import RegisterUser from "../commands/registerUser";
 import ICommandHandler from "../seed/commandHandler";
+
+import RegisterUser from "../commands/registerUser";
 
 class UserCommandHandler implements ICommandHandler<string | null, RegisterUser> {
     private repo: IRepository<User>;
