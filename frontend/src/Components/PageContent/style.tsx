@@ -4,7 +4,7 @@ const Main = styled.main`
     position: relative;
     top: 50px;
 
-    min-height: calc(100vh - 50px);
+    height: calc(100vh - 50px);
     width: 100vw;
 
     display: flex;
@@ -17,7 +17,10 @@ const Main = styled.main`
 `;
 
 const Full = styled(Main)`
-    min-height: 100vh;
+    position: static;
+    height: 100vh;
+
+    padding: 0;
 `;
 
 export { Main, Full };
