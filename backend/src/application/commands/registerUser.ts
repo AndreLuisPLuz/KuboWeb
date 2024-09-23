@@ -9,8 +9,9 @@ type RegisterUserProps = {
 
 class RegisterUser implements ICommand<RegisterUserProps>
 {
-    public commandId: string;
-    public props: RegisterUserProps;
+    commandId: string;
+    props: RegisterUserProps;
+    concreteType: "RegisterUser" = "RegisterUser";
 
     public constructor(props: RegisterUserProps) {
         this.commandId = uuid();
