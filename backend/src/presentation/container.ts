@@ -11,6 +11,6 @@ const presentationContainer = new Container().extend(applicationContainer);
 
 presentationContainer.bind(PRES_TOKENS.authController)
     .toInstance(AuthController)
-    .inResolutionScope();
+    .inSingletonScope();
 
 export { PRES_TOKENS, presentationContainer };

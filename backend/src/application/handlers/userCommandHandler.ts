@@ -1,5 +1,5 @@
 import { injected } from "brandi";
-import { INFRA_TOKENS } from "../../infrastructure/container";
+import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
 
 import User from "../../domain/aggregates/user/user";
 import IRepository from "../../domain/seed/repository";
@@ -13,6 +13,10 @@ class UserCommandHandler implements ICommandHandler<string | null, RegisterUser>
     constructor(repo: IRepository<User>) {
         this.repo = repo;
     }
+
+    solveDependencies = (): void => {
+        this.repo = infrastructureContainer.get(INFRA_TOKENS.userRepository);
+    };
 
     handleAsync = async (command: RegisterUser): Promise<string | null> => {
         const newUser = User.createNew(command.props);
