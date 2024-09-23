@@ -8,7 +8,9 @@ import ICommandHandler from "../seed/commandHandler";
 import RegisterUser from "../commands/registerUser";
 import AuthenticateUser from "../commands/authenticateUser";
 
-type UserCommand = AuthenticateUser | RegisterUser;
+type UserCommand =
+    | AuthenticateUser
+    | RegisterUser;
 
 class UserCommandHandler
     implements
