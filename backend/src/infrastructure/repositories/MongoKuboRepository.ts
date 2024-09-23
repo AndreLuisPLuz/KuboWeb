@@ -12,10 +12,10 @@ class MongoKuboRepository extends BaseMongoRepository<IKubo, Kubo> {
     public constructor() {
         super(KuboModel);
     }
-
+    
     protected loadFromDocument = (document: Document<unknown, {}, IKubo> & IKubo & Required<{ _id: string; }>): Kubo => {
         const nickname = Nickname.createNew({ value: document.nickname });
-
+        
         return Kubo.load(document._id, {
             userId: document.userId,
             nickname: nickname,
@@ -28,6 +28,10 @@ class MongoKuboRepository extends BaseMongoRepository<IKubo, Kubo> {
             coins: document.coins,
             kitchen: new KitchenModel(document.kitchen).toKitchen()
         });
+    };
+
+    protected parse = (entity: Kubo): Document<unknown, {}, IKubo> & IKubo & Required<{ _id: string; }> => {
+        throw new Error();
     };
 }
 

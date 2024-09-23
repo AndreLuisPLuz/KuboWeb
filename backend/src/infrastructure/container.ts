@@ -17,14 +17,14 @@ const infrastructureContainer = new Container();
 
 infrastructureContainer.bind(INFRA_TOKENS.kuboRepository)
     .toInstance(() => new MongoKuboRepository())
-    .inResolutionScope();
+    .inTransientScope();
 
 infrastructureContainer.bind(INFRA_TOKENS.userRepository)
     .toInstance(() => new MongoUserRepository())
-    .inResolutionScope();
+    .inTransientScope();
 
 infrastructureContainer.bind(INFRA_TOKENS.translationRepository)
     .toInstance(() => new MongoTranslationRepository())
-    .inResolutionScope();
+    .inTransientScope();
 
 export { INFRA_TOKENS, infrastructureContainer };

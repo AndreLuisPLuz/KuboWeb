@@ -25,7 +25,7 @@ cosmeticTypeSchema.method("toCosmeticType",
 
         return CosmeticType.getInstance(type);
     }
-)
+);
 
 const CosmeticTypeModel = model("CosmeticType", cosmeticTypeSchema);
 

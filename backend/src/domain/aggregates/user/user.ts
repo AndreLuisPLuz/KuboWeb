@@ -7,14 +7,15 @@ type UserProps = {
     username: string;
     email: string;
     password: string;
+    configuration?: UserConfiguration;
 };
 
 class User extends Entity<UserProps> {
-    public configuration: UserConfiguration | null = null;
 
     public get username() { return this.props.username };
     public get email() { return this.props.email };
     public get password() { return this.props.password };
+    public get configuration() { return this.props.configuration };
 
     private constructor (
             props: UserProps,
@@ -30,8 +31,8 @@ class User extends Entity<UserProps> {
         return newUser;
     };
 
-    public static load = (props: UserProps): User => {
-        return new User(props);
+    public static load = (id: string, props: UserProps): User => {
+        return new User(props, id);
     };
 
     private static hashPassword = (rawPassword: string): string => {

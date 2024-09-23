@@ -1,6 +1,6 @@
-interface ICommand<TFeedBack> {
+interface ICommand<TProps> {
     commandId: string;
-    result: TFeedBack;
+    props: TProps;
 }
 
 export default ICommand;

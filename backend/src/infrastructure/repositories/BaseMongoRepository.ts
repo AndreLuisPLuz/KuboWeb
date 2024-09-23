@@ -25,12 +25,12 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         return entity;
     };
 
-    upsertAsync = async (entity: any): Promise<any> => {
+    upsertAsync = async (entity: TEntity): Promise<any> => {
         const entityExists = (await this.model.exists({ _id: entity._id }) != null);
 
         const document = entityExists
             ? await this.model.findOneAndUpdate({ _id: entity._id }, entity).exec()
-            : await this.model.create(entity);
+            : await this.model.create(this.parse(entity));
         
         if (document == null)
             return null;
@@ -38,6 +38,8 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         const savedEntity = this.loadFromDocument(document);
         return savedEntity;
     };
+
+    protected abstract parse: (entity: TEntity) => TInterface;
 
     protected abstract loadFromDocument: (document: HydratedDocument<TInterface>) => TEntity;
 }
