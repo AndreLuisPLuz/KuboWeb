@@ -6,7 +6,7 @@ interface IUser {
     username: string;
     email: string;
     password: string;
-    configuration: IUserConfiguration
+    configuration: IUserConfiguration | null;
 }
 
 const userSchema = new Schema<IUser>({

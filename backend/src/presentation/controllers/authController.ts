@@ -20,7 +20,7 @@ class AuthController {
         this.userQueryHandler = userQueryHandler;
     }
 
-    registerUser = async ( req: Request, res: Response): Promise<Response> => {
+    registerUser = async (req: Request, res: Response): Promise<Response> => {
         const userId = await this.userCommandHandler.handleAsync(
             new RegisterUser(req.body)
         );
@@ -32,7 +32,7 @@ class AuthController {
             new GetUserDetails({ id: userId })
         );
 
-        return res.status(401).json(userDetails);
+        return res.status(201).json(userDetails);
     };
 }
 
