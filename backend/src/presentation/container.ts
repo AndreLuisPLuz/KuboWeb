@@ -1,6 +1,7 @@
 import { Container, token } from "brandi";
-import AuthController from "./controllers/authController";
 import { applicationContainer } from "../application/container";
+
+import AuthController from "./controllers/authController";
 
 const PRES_TOKENS = {
     authController: token<AuthController>("authController"),
