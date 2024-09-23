@@ -19,7 +19,14 @@ class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
 
     handleAsync = async (query: GetUserDetails): Promise<UserDetails | null> => {
         const user = await this.repo.findByIdAsync(query.id);
-        return user;
+
+        if (user == null)
+            return null;
+
+        return {
+            username: user.username,
+            email: user.email,
+        };
     }
 }
 
