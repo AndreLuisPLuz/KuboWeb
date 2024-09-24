@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { H1, MascoteContainer, CustomizerContainerPersonalize, AccessoryOption, EyeOption, ColorOption, OptionsContainer, MascotPreview, CustomizerContainer } from "./style"
+import React, { useState } from "react";
+import { ContainerA, Button, ImageContainer, Container, H1, MascoteContainer, CustomizerContainerPersonalize, AccessoryOption, EyeOption, OptionsContainer, MascotPreview, CustomizerContainer } from "./style"
 import TradicionalEyes from "../../assets/tradicionalEyes.png"
 import Normal from "../../assets/normalEyes.png"
 import Calm from "../../assets/calmEyes.png"
@@ -14,7 +14,8 @@ import MascHat from "../../assets/maschatAccessory.png"
 import pinkTie from "../../assets/pinkTieAccessory.png"
 import blueTie from "../../assets/blueTieAccessory.png"
 import RabbitEars from "../../assets/rabbitEarsAccessory.png"
-import { ColorPicker } from 'primereact/colorpicker';
+import Mouth from "../../components/Mouth/index"
+
 
 const eyeOptions = [
     { id: 1, name: "Tradicional", image: TradicionalEyes },
@@ -39,14 +40,14 @@ const accessoryOptions = [
 const MascotCustomizer: React.FC = () => {
     const [selectedEye, setSelectedEye] = useState<number | null>(null);
     const [selectedAccessory, setSelectedAccessory] = useState<number | null>(null);
-    const [color, setColor] = useState<string>('ccc');
+    const [color, setColor] = useState<string>('#57a0f3');
 
     return (
         <CustomizerContainer>
             <CustomizerContainerPersonalize>
                 <H1>CORES</H1>
                 <OptionsContainer>
-                    <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />    
+                    <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
                 </OptionsContainer>
                 <H1>OLHOS</H1>
                 <OptionsContainer>
@@ -73,16 +74,24 @@ const MascotCustomizer: React.FC = () => {
                     ))}
                 </OptionsContainer>
             </CustomizerContainerPersonalize>
-            <MascoteContainer>
-                <MascotPreview backgroundColor={color}>
-                    {selectedEye !== null && (
-                        <img src={eyeOptions.find((eye) => eye.id === selectedEye)?.image} alt="Eye" />
-                    )}
-                    {selectedAccessory !== null && (
-                        <img src={accessoryOptions.find((acc) => acc.id === selectedAccessory)?.image} alt="Accessory" />
-                    )}
-                </MascotPreview>
-            </MascoteContainer>
+            <ContainerA>
+                <MascoteContainer>
+                    <Container>
+                        <MascotPreview backgroundColor={color}>
+                            <ImageContainer>
+                                {selectedAccessory !== null && (
+                                    <img src={accessoryOptions.find((acc) => acc.id === selectedAccessory)?.image} alt="Accessory" />
+                                )}
+                            </ImageContainer>
+                            {selectedEye !== null && (
+                                <img src={eyeOptions.find((eye) => eye.id === selectedEye)?.image} alt="Eye" />
+                            )}
+                            <Mouth />
+                        </MascotPreview>
+                    </Container>
+                </MascoteContainer>
+                <Button>CRIAR</Button>
+            </ContainerA>
         </CustomizerContainer>
     );
 };

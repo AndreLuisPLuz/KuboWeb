@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonEntrar, ButtonRegistrar, Copyright, Container, Container2,  H1, InputEmail, InputSenha, DivLogin } from "./style";
 import BouncingKubo from './BouncingKubo'
 
