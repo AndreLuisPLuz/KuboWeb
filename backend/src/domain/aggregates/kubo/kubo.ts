@@ -1,5 +1,6 @@
 import Entity from "../../seed/entity";
 import Cosmetic from "./cosmetic";
+import StatFactory from "./factories/statFactory";
 import Kitchen from "./kitchen";
 import KuboStat from "./kuboStat";
 import Nickname from "./nickname";
@@ -17,6 +18,9 @@ type KuboProps = {
     kitchen: Kitchen;
 };
 
+type KuboCreateProps = Omit<KuboProps,
+    "health" | "hunger" | "happiness" | "coins" | "kitchen">;
+
 class Kubo extends Entity<KuboProps> {
     public get nickname() { return this.props.nickname };
     public get color() { return this.props.color };
@@ -32,8 +36,15 @@ class Kubo extends Entity<KuboProps> {
         super(props, id)
     }
 
-    public static createNew = (props: KuboProps): Kubo => {
-        return new Kubo(props);
+    public static createNew = (props: KuboCreateProps): Kubo => {
+        return new Kubo({
+            ...props,
+            health: StatFactory.createHealth(100),
+            hunger: StatFactory.createHunger(100),
+            happiness: StatFactory.createHappiness(100),
+            coins: 100,
+            kitchen: Kitchen.createNew({ availableFood: [] })
+        });
     };
 
     public static load = (id: string, props: KuboProps): Kubo => {
