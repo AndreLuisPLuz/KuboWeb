@@ -8,14 +8,15 @@ type UserProps = {
     username: string;
     email: string;
     password: Password;
+    hasKubo: boolean;
     configuration?: UserConfiguration;
 };
 
 class User extends Entity<UserProps> {
-
     public get username() { return this.props.username };
     public get email() { return this.props.email };
     public get password() { return this.props.password.value };
+    public get hasKubo() { return this.props.hasKubo };
     public get configuration() { return this.props.configuration };
 
     public set password(value: string) { this.props.password = Password.load({ password: value }) };
@@ -27,8 +28,8 @@ class User extends Entity<UserProps> {
         super(props, id);
     }
 
-    public static createNew = (props: UserProps): User => {
-        return new User(props);
+    public static createNew = (props: Omit<UserProps, "hasKubo">): User => {
+        return new User({ ...props, hasKubo: false} );
     };
 
     public static load = (id: string, props: UserProps): User => {

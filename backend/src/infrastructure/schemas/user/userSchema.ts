@@ -6,6 +6,7 @@ interface IUser {
     username: string;
     email: string;
     password: string;
+    hasKubo: boolean;
     configuration: IUserConfiguration | null;
 }
 
@@ -14,6 +15,7 @@ const userSchema = new Schema<IUser>({
     username: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    hasKubo: { type: Boolean, required: true },
     configuration: userConfigurationSchema
 });
 
