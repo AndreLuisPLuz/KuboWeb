@@ -2,11 +2,12 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import Entity from "../../seed/entity";
 import UserConfiguration from "./configuration";
+import Password from "./password";
 
 type UserProps = {
     username: string;
     email: string;
-    password: string;
+    password: Password;
     configuration?: UserConfiguration;
 };
 
@@ -25,23 +26,11 @@ class User extends Entity<UserProps> {
     }
 
     public static createNew = (props: UserProps): User => {
-        props.password = User.hashPassword(props.password);
-        const newUser = new User(props);
-
-        return newUser;
+        return new User(props);
     };
 
     public static load = (id: string, props: UserProps): User => {
         return new User(props, id);
-    };
-
-    private static hashPassword = (rawPassword: string): string => {
-        const numSaltRounds = process.env.NODE_ENV == "development" ? 1 : 32;
-        const salt = bcrypt.genSaltSync(numSaltRounds);
-
-        const hash = bcrypt.hashSync(rawPassword, salt);
-
-        return hash;
     };
 }
 
