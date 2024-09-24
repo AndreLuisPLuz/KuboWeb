@@ -12,6 +12,9 @@ class AuthenticateUser implements ICommand<AuthenticateUserProps> {
     props: AuthenticateUserProps;
     concreteType: "AuthenticateUser" = "AuthenticateUser";
 
+    public get username() { return this.props.username };
+    public get password() { return this.props.password };
+
     public constructor(props: AuthenticateUserProps) {
         this.commandId = uuid();
         this.props = props;

@@ -6,10 +6,11 @@ import Language from "../domain/aggregates/translation/language";
 import MongoKuboRepository from "./repositories/MongoKuboRepository";
 import MongoUserRepository from "./repositories/MongoUserRepository";
 import MongoTranslationRepository from "./repositories/MongoTranslationRepository";
+import IUserRepository from "../domain/aggregates/user/contracts/userRepository";
 
 const INFRA_TOKENS = {
     kuboRepository: token<IRepository<Kubo>>("kuboRepository"),
-    userRepository: token<IRepository<User>>("userRepository"),
+    userRepository: token<IUserRepository>("userRepository"),
     translationRepository: token<IRepository<Language>>("translationRepository"),
 };
 

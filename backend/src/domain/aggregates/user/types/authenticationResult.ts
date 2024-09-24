@@ -1,14 +1,19 @@
-type Succeeded = {
+type SucceededAuth = {
     kind: "succeeded";
     userId: string;
 };
 
-type Failed = {
+type FailedAuth = {
     kind: "failed";
+    reasons: ("username" | "password")[];
 }
 
 type AuthenticationResult =
-    | Succeeded
-    | Failed;
+    | SucceededAuth
+    | FailedAuth;
 
-export default AuthenticationResult;
+export {
+    SucceededAuth,
+    FailedAuth,
+    AuthenticationResult
+};

@@ -1,14 +1,28 @@
 import { IUser, UserModel } from "../schemas/user/userSchema";
-
-import User from "../../domain/aggregates/user/user";
-import BaseMongoRepository from "./BaseMongoRepository";
 import { Document } from "mongoose";
 import { UserConfigurationModel } from "../schemas/user/configurationSchema";
 
-class MongoUserRepository extends BaseMongoRepository<IUser, User> {
+import User from "../../domain/aggregates/user/user";
+import BaseMongoRepository from "./BaseMongoRepository";
+import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
+import Password from "../../domain/aggregates/user/password";
+
+class MongoUserRepository
+        extends BaseMongoRepository<IUser, User>
+        implements IUserRepository {
     public constructor() {
         super(UserModel);
     }
+
+    public findByUsernameAsync = async (username: string): Promise<User | null> => {
+        const document = await this.model.findOne({ username: username }).exec();
+
+        if (document == null)
+            return null;
+
+        const entity = this.loadFromDocument(document);
+        return entity;
+    };
 
     protected parse = (entity: User): IUser => {
         return {
@@ -27,7 +41,7 @@ class MongoUserRepository extends BaseMongoRepository<IUser, User> {
             document._id,
             {
                 email: document.email,
-                password: document.password,
+                password: Password.load({ password: document.password }),
                 username: document.username,
                 configuration: new UserConfigurationModel(document.configuration).toUserConfiguration(),
             }

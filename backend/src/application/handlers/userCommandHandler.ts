@@ -1,14 +1,16 @@
 import { injected } from "brandi";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
 
+import jsonwebtoken from "jsonwebtoken";
 import User from "../../domain/aggregates/user/user";
-import IRepository from "../../domain/seed/repository";
 import ICommandHandler from "../seed/commandHandler";
-
 import RegisterUser from "../commands/registerUser";
 import AuthenticateUser from "../commands/authenticateUser";
 import UpsertError from "../errors/upsertError";
 import Password from "../../domain/aggregates/user/password";
+import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
+import NotFoundError from "../errors/notFoundError";
+import FailedAuthenticationError from "../errors/failedAuthenticationError";
 
 type UserCommand =
     | AuthenticateUser
@@ -18,9 +20,9 @@ class UserCommandHandler
     implements
         ICommandHandler<string, RegisterUser>,
         ICommandHandler<string, AuthenticateUser> {
-    private repo: IRepository<User>;
+    private repo: IUserRepository;
 
-    constructor(repo: IRepository<User>) {
+    constructor(repo: IUserRepository) {
         this.repo = repo;
     }
 
@@ -41,7 +43,28 @@ class UserCommandHandler
     }
 
     private async handleAuthenticateUser(command: AuthenticateUser): Promise<string> {
-        throw new Error();
+        const user = await this.repo.findByUsernameAsync(command.username);
+
+        if (user == null)
+            throw new NotFoundError("User corresponding to email not found.");
+
+        const authenticationResult = user.authenticateAgainst(
+            command.username,
+            command.password
+        );
+
+        if (authenticationResult.kind == "failed")
+            throw new FailedAuthenticationError("Unable to authenticate.", authenticationResult);
+
+        const token = jsonwebtoken.sign(
+            { userId: authenticationResult.userId },
+            process.env.APP_SECRET_KEY,
+            (process.env.NODE_ENV == "development")
+                ? {}
+                : { expiresIn: '2 days' }
+        );
+
+        return token;
     }
 
     private async handleRegisterUser(command: RegisterUser): Promise<string> {

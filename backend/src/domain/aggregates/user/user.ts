@@ -2,7 +2,7 @@ import "dotenv/config";
 import Entity from "../../seed/entity";
 import UserConfiguration from "./configuration";
 import Password from "./password";
-import AuthenticationResult from "./types/authenticationResult";
+import { AuthenticationResult } from "./types/authenticationResult";
 
 type UserProps = {
     username: string;
@@ -42,7 +42,18 @@ class User extends Entity<UserProps> {
         if (usernameMatches && passwordMatches)
             return { kind: "succeeded", userId: this._id };
 
-        return { kind: "failed" };
+        let reasons: ("username" | "password")[] = [];
+
+        if (!usernameMatches)
+            reasons.push("username");
+
+        if (!passwordMatches)
+            reasons.push("password");
+
+        return {
+            kind: "failed",
+            reasons: reasons
+        };
     };
 }
 

@@ -4,7 +4,7 @@ import Entity from "../../domain/seed/entity";
 
 abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         implements IRepository<TEntity> {
-    private model: Model<TInterface>;
+    protected model: Model<TInterface>;
 
     constructor(model: Model<TInterface>) {
         this.model = model;
