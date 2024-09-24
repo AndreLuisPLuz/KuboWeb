@@ -5,7 +5,7 @@ type SucceededAuth = {
 
 type FailedAuth = {
     kind: "failed";
-    reasons: ("username" | "password")[];
+    reasons: string[];
 }
 
 type AuthenticationResult =

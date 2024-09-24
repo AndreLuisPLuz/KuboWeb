@@ -37,18 +37,18 @@ class User extends Entity<UserProps> {
 
     public authenticateAgainst = (username: string, password: string): AuthenticationResult => {
         const usernameMatches = (this.username == username);
-        const passwordMatches = (this.password == password);
+        const passwordMatches = (this.props.password.matchesAgainst(password));
 
         if (usernameMatches && passwordMatches)
             return { kind: "succeeded", userId: this._id };
 
-        let reasons: ("username" | "password")[] = [];
+        let reasons = [];
 
         if (!usernameMatches)
-            reasons.push("username");
+            reasons.push("Usernames don't match.");
 
         if (!passwordMatches)
-            reasons.push("password");
+            reasons.push("Passwords don't match.");
 
         return {
             kind: "failed",

@@ -7,6 +7,7 @@ import UserQueryHandler from "../../application/handlers/userQueryHandler";
 
 import { GetUserDetails } from "../../application/queries/getUserDetails";
 import RegisterUser from "../../application/commands/registerUser";
+import AuthenticateUser from "../../application/commands/authenticateUser";
 
 class AuthController {
     private userCommandHandler: UserCommandHandler;
@@ -26,6 +27,14 @@ class AuthController {
         );
 
         return res.status(201).json({ id: userId });
+    };
+
+    authenticateUser = async (req: Request, res: Response): Promise<Response> => {
+        const token = await this.userCommandHandler.handleAsync(
+            new AuthenticateUser(req.body)
+        );
+
+        return res.status(200).json({ token: token });
     };
 
     fetchUserById = async (req: Request, res: Response): Promise<Response> => {

@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { injected } from "brandi";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
 
@@ -56,12 +58,11 @@ class UserCommandHandler
         if (authenticationResult.kind == "failed")
             throw new FailedAuthenticationError("Unable to authenticate.", authenticationResult);
 
+        const secret = process.env.APP_SECRET_KEY;
         const token = jsonwebtoken.sign(
             { userId: authenticationResult.userId },
-            process.env.APP_SECRET_KEY,
-            (process.env.NODE_ENV == "development")
-                ? {}
-                : { expiresIn: '2 days' }
+            secret!,
+            { expiresIn: '1 day' }
         );
 
         return token;
