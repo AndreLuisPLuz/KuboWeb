@@ -5,6 +5,7 @@ import { GetUserDetails, UserDetails } from "../queries/getUserDetails";
 import User from "../../domain/aggregates/user/user";
 import IRepository from "../../domain/seed/repository";
 import IQueryHandler from "../seed/queryHandler";
+import NotFoundError from "../errors/notFoundError";
 
 class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
     private repo: IRepository<User>;
@@ -17,11 +18,11 @@ class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
         this.repo = infrastructureContainer.get(INFRA_TOKENS.userRepository);
     };
 
-    handleAsync = async (query: GetUserDetails): Promise<UserDetails | null> => {
+    handleAsync = async (query: GetUserDetails): Promise<UserDetails> => {
         const user = await this.repo.findByIdAsync(query.id);
 
         if (user == null)
-            return null;
+            throw new NotFoundError("User not found.");
 
         return {
             username: user.username,

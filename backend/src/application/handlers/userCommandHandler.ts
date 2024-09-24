@@ -7,6 +7,7 @@ import ICommandHandler from "../seed/commandHandler";
 
 import RegisterUser from "../commands/registerUser";
 import AuthenticateUser from "../commands/authenticateUser";
+import UpsertError from "../errors/upsertError";
 
 type UserCommand =
     | AuthenticateUser
@@ -14,8 +15,8 @@ type UserCommand =
 
 class UserCommandHandler
     implements
-        ICommandHandler<string | null, RegisterUser>,
-        ICommandHandler<string | null, AuthenticateUser> {
+        ICommandHandler<string, RegisterUser>,
+        ICommandHandler<string, AuthenticateUser> {
     private repo: IRepository<User>;
 
     constructor(repo: IRepository<User>) {
@@ -26,10 +27,10 @@ class UserCommandHandler
         this.repo = infrastructureContainer.get(INFRA_TOKENS.userRepository);
     };
 
-    handleAsync(command: RegisterUser): Promise<string | null>;
-    handleAsync(command: AuthenticateUser): Promise<string | null>;
+    handleAsync(command: RegisterUser): Promise<string>;
+    handleAsync(command: AuthenticateUser): Promise<string>;
 
-    public async handleAsync(command: UserCommand): Promise<string | null> {
+    public async handleAsync(command: UserCommand): Promise<string> {
         this.solveDependencies();
 
         switch (command.concreteType) {
@@ -38,15 +39,18 @@ class UserCommandHandler
         }
     }
 
-    private async handleAuthenticateUser(command: AuthenticateUser): Promise<string | null> {
+    private async handleAuthenticateUser(command: AuthenticateUser): Promise<string> {
         throw new Error();
     }
 
-    private async handleRegisterUser(command: RegisterUser): Promise<string | null> {
+    private async handleRegisterUser(command: RegisterUser): Promise<string> {
         const newUser = User.createNew(command.props);
         const savedUser = await this.repo.upsertAsync(newUser);
 
-        return savedUser?._id || null;
+        if (savedUser == null)
+            throw new UpsertError("Unuble to create user.");
+
+        return savedUser._id;
     }
 }
 
