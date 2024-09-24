@@ -13,6 +13,10 @@ class RegisterUser implements ICommand<RegisterUserProps>
     props: RegisterUserProps;
     concreteType: "RegisterUser" = "RegisterUser";
 
+    public get username() { return this.props.username };
+    public get email() { return this.props.email };
+    public get password() { return this.props.password };
+
     public constructor(props: RegisterUserProps) {
         this.commandId = uuid();
         this.props = props;

@@ -1,5 +1,4 @@
 import "dotenv/config";
-import bcrypt from "bcryptjs";
 import Entity from "../../seed/entity";
 import UserConfiguration from "./configuration";
 import Password from "./password";
@@ -15,8 +14,10 @@ class User extends Entity<UserProps> {
 
     public get username() { return this.props.username };
     public get email() { return this.props.email };
-    public get password() { return this.props.password };
+    public get password() { return this.props.password.value };
     public get configuration() { return this.props.configuration };
+
+    public set password(value: string) { this.props.password = Password.load({ password: value }) };
 
     private constructor (
             props: UserProps,

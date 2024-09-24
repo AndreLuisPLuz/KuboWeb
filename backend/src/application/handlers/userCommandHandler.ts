@@ -8,6 +8,7 @@ import ICommandHandler from "../seed/commandHandler";
 import RegisterUser from "../commands/registerUser";
 import AuthenticateUser from "../commands/authenticateUser";
 import UpsertError from "../errors/upsertError";
+import Password from "../../domain/aggregates/user/password";
 
 type UserCommand =
     | AuthenticateUser
@@ -44,7 +45,12 @@ class UserCommandHandler
     }
 
     private async handleRegisterUser(command: RegisterUser): Promise<string> {
-        const newUser = User.createNew(command.props);
+        const newUser = User.createNew({
+            username: command.username,
+            email: command.email,
+            password: Password.createNew({ password: command.password }),
+        });
+
         const savedUser = await this.repo.upsertAsync(newUser);
 
         if (savedUser == null)
