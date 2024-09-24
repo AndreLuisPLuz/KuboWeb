@@ -24,11 +24,16 @@ class AuthController {
         const userId = await this.userCommandHandler.handleAsync(
             new RegisterUser(req.body)
         );
+
+        return res.status(201).json({ id: userId });
+    };
+
+    fetchUserById = async (req: Request, res: Response): Promise<Response> => {
         const userDetails = await this.userQueryHandler.handleAsync(
-            new GetUserDetails({ id: userId })
+            new GetUserDetails({ id: req.params.id })
         );
 
-        return res.status(201).json(userDetails);
+        return res.status(200).json(userDetails);
     };
 }
 

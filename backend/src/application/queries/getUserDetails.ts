@@ -6,6 +6,7 @@ type GetUserDetailsProps = {
 };
 
 type UserDetails = {
+    id: string;
     username: string;
     email: string;
 };

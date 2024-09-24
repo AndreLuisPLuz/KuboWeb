@@ -25,6 +25,7 @@ class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
             throw new NotFoundError("User not found.");
 
         return {
+            id: user._id,
             username: user.username,
             email: user.email,
         };
