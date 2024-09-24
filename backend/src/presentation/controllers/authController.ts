@@ -24,10 +24,6 @@ class AuthController {
         const userId = await this.userCommandHandler.handleAsync(
             new RegisterUser(req.body)
         );
-
-        if (userId == null)
-            return res.status(400).json();
-
         const userDetails = await this.userQueryHandler.handleAsync(
             new GetUserDetails({ id: userId })
         );
