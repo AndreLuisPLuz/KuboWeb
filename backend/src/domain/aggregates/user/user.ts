@@ -2,6 +2,7 @@ import "dotenv/config";
 import Entity from "../../seed/entity";
 import UserConfiguration from "./configuration";
 import Password from "./password";
+import AuthenticationResult from "./types/authenticationResult";
 
 type UserProps = {
     username: string;
@@ -32,6 +33,16 @@ class User extends Entity<UserProps> {
 
     public static load = (id: string, props: UserProps): User => {
         return new User(props, id);
+    };
+
+    public authenticateAgainst = (username: string, password: string): AuthenticationResult => {
+        const usernameMatches = (this.username == username);
+        const passwordMatches = (this.password == password);
+
+        if (usernameMatches && passwordMatches)
+            return { kind: "succeeded", userId: this._id };
+
+        return { kind: "failed" };
     };
 }
 
