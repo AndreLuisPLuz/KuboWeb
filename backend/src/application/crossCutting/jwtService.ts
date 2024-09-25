@@ -1,0 +1,3 @@
+class JwtService {
+    public generateToken()
+}
