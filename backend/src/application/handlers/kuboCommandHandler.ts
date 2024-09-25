@@ -1,3 +1,5 @@
+import { injected } from "brandi";
+import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
 import Kubo from "../../domain/aggregates/kubo/kubo";
 import Nickname from "../../domain/aggregates/kubo/nickname";
 import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
@@ -5,6 +7,7 @@ import IRepository from "../../domain/seed/repository";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
 import CreateKubo from "../commands/createKubo";
 import NotFoundError from "../errors/notFoundError";
+import UpsertError from "../errors/upsertError";
 import ICommandHandler from "../seed/commandHandler";
 
 type KuboCommand =
@@ -13,18 +16,22 @@ type KuboCommand =
 class KuboCommandHandler implements ICommandHandler<string, CreateKubo> {
     private repo: IRepository<Kubo>;
     private userRepo: IUserRepository;
+    private cosmeticRepo: IRepository<Cosmetic>;
 
     constructor(
             repository: IRepository<Kubo>,
-            userRepository: IUserRepository
+            userRepository: IUserRepository,
+            cosmeticRepository: IRepository<Cosmetic>,
     ) {
         this.repo = repository;
         this.userRepo = userRepository;
+        this.cosmeticRepo = cosmeticRepository;
     }
 
     solveDependencies = (): void => {
         this.repo = infrastructureContainer.get(INFRA_TOKENS.kuboRepository);
         this.userRepo = infrastructureContainer.get(INFRA_TOKENS.userRepository);
+        this.cosmeticRepo = infrastructureContainer.get(INFRA_TOKENS.cosmeticRepository);
     };
 
     async handleAsync(command: CreateKubo): Promise<string>;
@@ -47,8 +54,24 @@ class KuboCommandHandler implements ICommandHandler<string, CreateKubo> {
             userId: command.userId,
             nickname: Nickname.createNew({ value: command.nickname }),
             color: command.color,
+            eyesId: command.eyesId,
+            hatId: command.hatId
         });
+
+        const savedKubo = await this.repo.upsertAsync(newKubo);
+
+        if (savedKubo == null)
+            throw new UpsertError("Could not insert new Kubo.");
+
+        return savedKubo._id;
     }
 }
+
+injected(
+    KuboCommandHandler,
+    INFRA_TOKENS.kuboRepository,
+    INFRA_TOKENS.userRepository,
+    INFRA_TOKENS.cosmeticRepository,
+);
 
 export default KuboCommandHandler;
