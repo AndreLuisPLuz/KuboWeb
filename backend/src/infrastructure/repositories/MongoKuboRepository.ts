@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import { IKubo, KuboModel } from "../schemas/kubo/kuboSchema";
 import { KuboStatModel } from "../schemas/kubo/kuboStatSchema";
-import { CosmeticModel } from "../schemas/kubo/cosmeticSchema";
+import { CosmeticModel } from "../schemas/cosmetic/cosmeticSchema";
 import { KitchenModel } from "../schemas/kubo/kitchenSchema";
 
 import Kubo from "../../domain/aggregates/kubo/kubo";
@@ -23,8 +23,8 @@ class MongoKuboRepository extends BaseMongoRepository<IKubo, Kubo> {
             hunger: new KuboStatModel(document.hunger).toKuboStat(),
             happiness: new KuboStatModel(document.happiness).toKuboStat(),
             color: document.color,
-            eyes: new CosmeticModel(document.eyes).toCosmetic(),
-            hat: new CosmeticModel(document.hat).toCosmetic(),
+            eyesId: document.eyesId,
+            hatId: document.hatId,
             coins: document.coins,
             kitchen: new KitchenModel(document.kitchen).toKitchen()
         });

@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { cosmeticSchema, ICosmetic } from "./cosmeticSchema";
+import { ICosmetic } from "../cosmetic/cosmeticSchema";
 import { IKitchen, kitchenSchema } from "./kitchenSchema";
 import { IKuboStat, kuboStatSchema } from "./kuboStatSchema";
 
@@ -11,8 +11,8 @@ interface IKubo {
     hunger: IKuboStat,
     happiness: IKuboStat,
     color: string,
-    hat: ICosmetic,
-    eyes: ICosmetic,
+    hatId: string,
+    eyesId: string,
     coins: number,
     kitchen: IKitchen
 }
@@ -25,8 +25,8 @@ const kuboSchema = new Schema<IKubo>({
     hunger: kuboStatSchema,
     happiness: kuboStatSchema,
     color: { type: String, required: true },
-    hat: cosmeticSchema,
-    eyes: cosmeticSchema,
+    hatId: { type: String, ref: "Cosmetic" },
+    eyesId: { type: String, ref: "Cosmetic" },
     coins: { type: Number, required: true },
     kitchen: kitchenSchema
 });
