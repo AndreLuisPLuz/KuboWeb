@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import kubo from "../../../assets/kuboRegistro.png";
-import kubofeliz from "../../../assets/kuboRegistrofeliz.png";
+import kubo from "../../../assets/kubo.png";
+import kubofeliz from "../../../assets/kubofeliz.png";
 
 const Square = styled(motion.div)`
     background-image: url(${kubo});

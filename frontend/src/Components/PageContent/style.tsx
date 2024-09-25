@@ -4,7 +4,7 @@ const Main = styled.main`
     position: relative;
     top: 50px;
 
-    height: calc(100vh - 50px);
+    height: calc(100vh - 200px);
     width: 100vw;
 
     display: flex;

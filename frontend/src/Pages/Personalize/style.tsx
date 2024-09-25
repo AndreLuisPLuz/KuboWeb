@@ -8,6 +8,8 @@ const ContainerA = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 100vh;
 `
 
 const ImageContainer = styled.div`
@@ -27,7 +29,7 @@ const CustomizerContainer = styled.div`
   flex-direction: row;
   align-items: start;
   height: 100vh;
-  
+  width: 100vw;
 `;
 
 const MascoteContainer = styled.div`
@@ -42,7 +44,7 @@ const MascoteContainer = styled.div`
 const CustomizerContainerPersonalize = styled.div`
   background-color: #0e1844;
   height: 100%;
-  width: 40%;
+  width: 30%;
   padding: 30px;
 
   overflow: auto;
@@ -115,17 +117,17 @@ const H1 = styled.h1`
 const Button = styled.button`
   width: 180px;
   font-size: 1rem;
-  margin-top: 20px;
   padding: 10px;
   border: none;
   border-radius: 30px;
   background-color: #0e1844;
   color: #ffffff;
   cursor: pointer;
+  position: relative;
+  top: -15vh; 
   &:hover {
       background-color: #00608d;
   }
-  margin-top:100px ;
 `
 
 

@@ -1,7 +1,14 @@
-import { Container, Container2,  H1, Button, InputNome, InputEmail, InputConfirmarSenha, InputSenha, DivRegister } from "./style";
+import { Copyright,Container, Container2,  H1, Button, InputNome, InputEmail, InputConfirmarSenha, InputSenha, DivRegister } from "./style";
 import BouncingKubo from './BouncingKuboRegister'
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
+  const Navigate = useNavigate()
+
+  function HandleClick(){
+    Navigate("/login")
+  }
     return (
       <Container>
         <Container2>
@@ -15,8 +22,9 @@ const Register = () => {
             <InputSenha id="senha" type="password" placeholder="Digite sua senha" />
             <InputConfirmarSenha id="senha" type="password" placeholder="Confirme sua senha" />
           </DivRegister>
-          <Button>Cadastrar</Button>
+          <Button onClick={HandleClick}>Cadastrar</Button>
         </Container2>
+        <Copyright>© 2024 Kubo Company. Todos os direitos reservados.</Copyright>
       </Container>
     );
   }

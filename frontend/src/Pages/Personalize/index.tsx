@@ -15,6 +15,8 @@ import pinkTie from "../../assets/pinkTieAccessory.png"
 import blueTie from "../../assets/blueTieAccessory.png"
 import RabbitEars from "../../assets/rabbitEarsAccessory.png"
 import Mouth from "../../components/Mouth/index"
+import { useNavigate } from "react-router-dom";
+
 
 
 const eyeOptions = [
@@ -42,6 +44,11 @@ const MascotCustomizer: React.FC = () => {
     const [selectedAccessory, setSelectedAccessory] = useState<number | null>(null);
     const [color, setColor] = useState<string>('#57a0f3');
 
+    const Navigate = useNavigate()
+
+    function HandleClick(){
+        Navigate("/home")
+      }
     return (
         <CustomizerContainer>
             <CustomizerContainerPersonalize>
@@ -90,7 +97,7 @@ const MascotCustomizer: React.FC = () => {
                         </MascotPreview>
                     </Container>
                 </MascoteContainer>
-                <Button>CRIAR</Button>
+                <Button onClick={HandleClick}>CRIAR</Button>
             </ContainerA>
         </CustomizerContainer>
     );

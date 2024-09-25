@@ -47,7 +47,6 @@ const H1 = styled.h1`
 const Button = styled.button`
     width: 180px;
     font-size: 1rem;
-    margin-top: 20px;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -57,7 +56,8 @@ const Button = styled.button`
     &:hover {
         background-color: #0056b3
     }
-    margin-top:100px ;
+    margin-top: 50px;
+
 `;
 
 const InputNome = styled.input`
@@ -121,4 +121,13 @@ display: flex;
     }
 `;
 
-export { Container, Container2, Container3, H1, Button, InputNome, InputEmail, InputConfirmarSenha, InputSenha, DivRegister};
+const Copyright = styled.div`
+    position: absolute; 
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    font-size: 0.8rem; 
+    color: #f7f7f7; 
+`;
+
+export {Copyright, Container, Container2, Container3, H1, Button, InputNome, InputEmail, InputConfirmarSenha, InputSenha, DivRegister};
