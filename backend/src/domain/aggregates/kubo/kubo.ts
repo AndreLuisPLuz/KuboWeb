@@ -13,8 +13,8 @@ type KuboProps = {
     hunger: KuboStat;
     happiness: KuboStat;
     coins: number;
-    hat: Cosmetic;
-    eyes: Cosmetic;
+    hatId: string;
+    eyesId: string;
     kitchen: Kitchen;
 };
 
@@ -28,6 +28,9 @@ class Kubo extends Entity<KuboProps> {
     public get hunger() { return this.props.hunger };
     public get happiness() { return this.props.happiness };
     public get coins() { return this.props.coins };
+    public get hatId() { return this.props.hatId };
+    public get eyesId() { return this.props.eyesId };
+    public get kitchen() { return this.props.kitchen };
 
     private constructor(
             props: KuboProps,
