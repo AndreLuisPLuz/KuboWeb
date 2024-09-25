@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import Background from "../../assets/fundoSala.png"
+import Background from "../../assets/fundoQuarto.png"
 import { Room } from '../../components/Room';
 
-const Home1 = styled(Room)`
+const Bedroom = styled(Room)`
     background-image: url(${Background});
 `
 
-export {Home1}
+export {Bedroom}
