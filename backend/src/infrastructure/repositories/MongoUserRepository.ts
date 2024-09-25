@@ -30,6 +30,7 @@ class MongoUserRepository
             email: entity.email,
             password: entity.password,
             username: entity.username,
+            hasKubo: entity.hasKubo,
             configuration: (entity.configuration)
                 ? new UserConfigurationModel().fromUserConfiguration(entity.configuration)
                 : null,
@@ -43,6 +44,7 @@ class MongoUserRepository
                 email: document.email,
                 password: Password.load({ password: document.password }),
                 username: document.username,
+                hasKubo: document.hasKubo,
                 configuration: new UserConfigurationModel(document.configuration).toUserConfiguration(),
             }
         );

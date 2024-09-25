@@ -8,12 +8,14 @@ enum Type {
 
 type CosmeticTypeProps = {
     id: number;
-    description: string;
+    description: "Hat" | "Eyes";
     type: Type;
 };
 
 class CosmeticType extends ValueObject<CosmeticTypeProps>
 {
+    public get type() { return this.props.description }
+
     private static readonly hatCosmetic: CosmeticType = new CosmeticType({
         id: 1, description: "Hat", type: Type.HAT
     });

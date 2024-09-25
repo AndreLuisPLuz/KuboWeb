@@ -8,6 +8,10 @@ type CosmeticProps = {
 };
 
 class Cosmetic extends Entity<CosmeticProps> {
+    public get name() { return this.props.name };
+    public get imagePath() { return this.props.imagePath };
+    public get type() { return this.props.type };
+
     private constructor(
             props: CosmeticProps,
             id: string | null = null
