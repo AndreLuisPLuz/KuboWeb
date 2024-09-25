@@ -1,5 +1,5 @@
 import Entity from "../../seed/entity";
-import Cosmetic from "./cosmetic";
+import Cosmetic from "../cosmetic/cosmetic";
 import StatFactory from "./factories/statFactory";
 import Kitchen from "./kitchen";
 import KuboStat from "./kuboStat";

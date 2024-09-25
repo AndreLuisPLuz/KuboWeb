@@ -1,5 +1,5 @@
 import { model, Model, Schema } from "mongoose";
-import { CosmeticType, Type } from "../../../domain/aggregates/kubo/cosmeticType";
+import { CosmeticType, Type } from "../../../domain/aggregates/cosmetic/cosmeticType";
 import { match } from "ts-pattern";
 
 interface ICosmeticType {

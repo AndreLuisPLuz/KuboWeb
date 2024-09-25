@@ -1,6 +1,6 @@
 import { model, Model, Schema } from "mongoose";
 import { CosmeticTypeModel, cosmeticTypeSchema, ICosmeticType } from "./cosmeticTypeSchema";
-import Cosmetic from "../../../domain/aggregates/kubo/cosmetic";
+import Cosmetic from "../../../domain/aggregates/cosmetic/cosmetic";
 
 interface ICosmetic  {
     name: string;
