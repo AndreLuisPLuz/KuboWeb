@@ -2,8 +2,9 @@ import "dotenv/config";
 
 import { injected } from "brandi";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
+import { APP_TOKENS, applicationContainer } from "../container";
+import { SucceededAuth } from "../../domain/aggregates/user/types/authenticationResult";
 
-import jsonwebtoken from "jsonwebtoken";
 import User from "../../domain/aggregates/user/user";
 import ICommandHandler from "../seed/commandHandler";
 import RegisterUser from "../commands/registerUser";
@@ -13,6 +14,7 @@ import Password from "../../domain/aggregates/user/password";
 import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
 import NotFoundError from "../errors/notFoundError";
 import FailedAuthenticationError from "../errors/failedAuthenticationError";
+import JwtService from "../crossCutting/jwtService";
 
 type UserCommand =
     | AuthenticateUser
@@ -24,7 +26,9 @@ class UserCommandHandler
         ICommandHandler<string, AuthenticateUser> {
     private repo: IUserRepository;
 
-    constructor(repo: IUserRepository) {
+    constructor(
+            repo: IUserRepository,
+    ) {
         this.repo = repo;
     }
 
@@ -35,7 +39,7 @@ class UserCommandHandler
     handleAsync(command: RegisterUser): Promise<string>;
     handleAsync(command: AuthenticateUser): Promise<string>;
 
-    public async handleAsync(command: UserCommand): Promise<string> {
+    public async handleAsync(command: UserCommand): Promise<string | SucceededAuth> {
         this.solveDependencies();
 
         switch (command.concreteType) {
@@ -55,17 +59,11 @@ class UserCommandHandler
             command.password
         );
 
-        if (authenticationResult.kind == "failed")
-            throw new FailedAuthenticationError("Unable to authenticate.", authenticationResult);
-
-        const secret = process.env.APP_SECRET_KEY;
-        const token = jsonwebtoken.sign(
-            { userId: authenticationResult.userId },
-            secret!,
-            { expiresIn: '1 day' }
-        );
-
-        return token;
+        switch (authenticationResult.kind)
+        {
+            case "succeeded": return JwtService.generateToken(authenticationResult);
+            case "failed": throw new FailedAuthenticationError("Unable to authenticate.", authenticationResult);
+        }
     }
 
     private async handleRegisterUser(command: RegisterUser): Promise<string> {
@@ -78,12 +76,15 @@ class UserCommandHandler
         const savedUser = await this.repo.upsertAsync(newUser);
 
         if (savedUser == null)
-            throw new UpsertError("Unuble to create user.");
+            throw new UpsertError("Unable to create user.");
 
         return savedUser._id;
     }
 }
 
-injected(UserCommandHandler, INFRA_TOKENS.userRepository);
+injected(
+    UserCommandHandler,
+    INFRA_TOKENS.userRepository,
+);
 
 export default UserCommandHandler;
