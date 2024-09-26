@@ -28,7 +28,7 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
 
     findManyByCriteriaAsync = async (
             criteria: Criteria<TEntity, keyof TEntity>[],
-            pagination: PaginationOptions | null
+            pagination?: PaginationOptions
     )       : Promise<TEntity[]> => {
         const filter: Record<string, any> = {};
 
@@ -38,7 +38,7 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
 
         let query = this.model.find(filter);
 
-        if (pagination != null)
+        if (pagination)
             query = query.skip(pagination.offset).limit(pagination.take);
 
         const documents = await query.exec();
