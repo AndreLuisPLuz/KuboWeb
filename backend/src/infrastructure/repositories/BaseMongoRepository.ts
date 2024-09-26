@@ -1,6 +1,7 @@
-import { HydratedDocument, Model } from "mongoose";
-import IRepository from "../../domain/seed/repository";
+import { HydratedDocument, Model, Query } from "mongoose";
+import IRepository, { Criteria, PaginationOptions } from "../../domain/seed/repository";
 import Entity from "../../domain/seed/entity";
+import { number } from "ts-pattern/dist/patterns";
 
 abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         implements IRepository<TEntity> {
@@ -9,20 +10,41 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
     constructor(model: Model<TInterface>) {
         this.model = model;
     }
-
+    
     existsAsync = async (id: string): Promise<boolean> => {
         const document = await this.model.exists({ _id: id });
         return (document != null);
     };
-
+    
     findByIdAsync = async (id: string): Promise<any> => {
         const document = await this.model.findById(id).exec();
-
+        
         if (document == null)
             return null;
-
+        
         const entity = this.loadFromDocument(document);
         return entity;
+    };
+
+    findManyByCriteriaAsync = async (
+            criteria: Criteria<TEntity, keyof TEntity>[],
+            pagination: PaginationOptions | null
+    )       : Promise<TEntity[]> => {
+        const filter: Record<string, any> = {};
+
+        criteria.forEach(c => {
+            filter[c.key as string] = c.value;
+        });
+
+        let query = this.model.find(filter);
+
+        if (pagination != null)
+            query = query.skip(pagination.offset).limit(pagination.take);
+
+        const documents = await query.exec();
+        const entities = documents.map(d => this.loadFromDocument(d));
+
+        return entities;
     };
 
     upsertAsync = async (entity: TEntity): Promise<any> => {

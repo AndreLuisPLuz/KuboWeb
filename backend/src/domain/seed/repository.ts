@@ -5,18 +5,23 @@ type Criteria<TType extends Object, TKey extends keyof TType = keyof TType> = {
     value: TType[TKey];
 };
 
+type PaginationOptions = {
+    offset: number,
+    take: number,
+};
+
 interface IRepository<TEntity extends Entity<any>> {
     existsAsync: (id: string) => Promise<boolean>;
 
     findByIdAsync: (id: string) => Promise<TEntity | null>;
 
     findManyByCriteriaAsync: (
-            criteria: Criteria<TEntity>,
-            offset: number | null,
-            take: number | null
+            criteria: Criteria<TEntity>[],
+            pagination: PaginationOptions | null,
     ) => Promise<TEntity[]>;
     
     upsertAsync: (entity: TEntity) => Promise<TEntity | null>;
 }
 
+export type { Criteria, PaginationOptions };
 export default IRepository;
