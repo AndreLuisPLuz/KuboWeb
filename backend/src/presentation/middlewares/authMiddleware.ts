@@ -9,6 +9,7 @@ const authenticate = async(req: Request, res: Response, next: NextFunction) => {
         throw new InvalidHeaderError("Authorization header not present.");
 
     JwtService.validateToken(authToken);
+    next()
 };
 
 export default authenticate;

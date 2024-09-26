@@ -26,9 +26,9 @@ const handleError = (err: Error, req: Request, res: Response, next: NextFunction
                 console.error(err);
                 return res.status(500).json({ message: "Unknown server error", exception: err.message });
             }
-
+        
             return res.status(500).json({ message: "Unknown server error" });
-    }
-};
+        };
 
+}
 export default handleError;

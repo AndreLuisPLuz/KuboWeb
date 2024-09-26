@@ -16,7 +16,7 @@ class JwtService {
         return token;
     };
 
-    public static validateToken = (bearer: string) => {
+    public static validateToken = (bearer: string): void => {
         const [_prefix, token] = bearer.split(" ");
 
         if (token === undefined)
@@ -32,8 +32,6 @@ class JwtService {
                 userContext.fill({ userId: decoded.userId });
             }
         )
-
-        return userContext;
     };
 }
 

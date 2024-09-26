@@ -18,6 +18,7 @@ class KuboController {
     }
 
     public CreateCosmeticOption = async (req: Request, res: Response): Promise<Response> => {
+        console.log(req.body);
         const cosmeticId = await this.cosmeticCommHandler.handleAsync(
             new CreateCosmetic(req.body)
         );
