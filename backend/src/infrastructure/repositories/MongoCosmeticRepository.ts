@@ -8,9 +8,10 @@ class MongoCosmeticRepository extends BaseMongoRepository<ICosmetic, Cosmetic> {
     constructor() {
         super(CosmeticModel);
     }
-
+    
     protected parse = (entity: Cosmetic): ICosmetic => {
         return {
+            _id: entity._id,
             name: entity.name,
             imagePath: entity.imagePath,
             type: {
@@ -19,7 +20,7 @@ class MongoCosmeticRepository extends BaseMongoRepository<ICosmetic, Cosmetic> {
         };
     };
 
-    protected loadFromDocument = (document: Document<unknown, {}, ICosmetic> & ICosmetic & { _id: Types.ObjectId; }): Cosmetic => {
+    protected loadFromDocument = (document: Document<unknown, {}, ICosmetic> & ICosmetic & Required<{ _id: string; }>): Cosmetic => {
         return Cosmetic.createNew({
             name: document.name,
             imagePath: document.imagePath,

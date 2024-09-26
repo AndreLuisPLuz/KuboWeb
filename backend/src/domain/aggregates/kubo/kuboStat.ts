@@ -9,6 +9,9 @@ class KuboStat extends ValueObject<KuboStatProps> {
     private static readonly minLevel = 0;
     private static readonly maxLevel = 100;
 
+    public get description() { return this.props.description };
+    public get level() { return this.props.currentLevel };
+
     private constructor(props: KuboStatProps) {
         super(props);
     }

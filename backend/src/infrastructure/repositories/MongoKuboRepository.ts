@@ -1,7 +1,6 @@
 import { Document } from "mongoose";
 import { IKubo, KuboModel } from "../schemas/kubo/kuboSchema";
 import { KuboStatModel } from "../schemas/kubo/kuboStatSchema";
-import { CosmeticModel } from "../schemas/cosmetic/cosmeticSchema";
 import { KitchenModel } from "../schemas/kubo/kitchenSchema";
 
 import Kubo from "../../domain/aggregates/kubo/kubo";
@@ -30,10 +29,19 @@ class MongoKuboRepository extends BaseMongoRepository<IKubo, Kubo> {
         });
     };
 
-    protected parse = (entity: Kubo): Document<unknown, {}, IKubo> & IKubo & Required<{ _id: string; }> => {
+    protected parse = (entity: Kubo): IKubo => {
         return {
+            _id: entity._id,
             userId: entity.userId,
-            nickname: 
+            nickname: entity.nickname.value,
+            health: new KuboStatModel().fromKuboStat(entity.health),
+            hunger: new KuboStatModel().fromKuboStat(entity.hunger),
+            happiness: new KuboStatModel().fromKuboStat(entity.happiness),
+            color: entity.color,
+            eyesId: entity.eyesId,
+            hatId: entity.hatId,
+            coins: entity.coins,
+            kitchen: entity.kitchen
         };
     };
 }

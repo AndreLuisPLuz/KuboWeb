@@ -8,6 +8,7 @@ interface IKuboStat {
 
 interface IKuboStatMethods {
     toKuboStat(): KuboStat;
+    fromKuboStat(stat: KuboStat): IKuboStat;
 }
 
 type KuboStatSchema = Model<IKuboStat, {}, IKuboStatMethods>;
@@ -25,6 +26,15 @@ kuboStatSchema.method("toKuboStat",
         });
     }
 );
+
+kuboStatSchema.method("fromKuboStat",
+    function fromKuboStat(stat: KuboStat) {
+        this.description = stat.description;
+        this.currentLevel = stat.level;
+
+        return this;
+    }
+)
 
 const KuboStatModel = model("KuboStat", kuboStatSchema);
 

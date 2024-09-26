@@ -8,6 +8,7 @@ interface IFood {
 
 interface IFoodMethods {
     toFood(): Food;
+    fromFood(food: Food): IFood;
 }
 
 type FoodSchema = Model<IFood, {}, IFoodMethods>;
@@ -26,6 +27,19 @@ foodSchema.method("toFood",
     }
 )
 
+foodSchema.method("fromFood",
+    function fromFood(food: Food): IFood {
+        this.foodId = food.foodId;
+        this.quantity = food.quantity;
+
+        return this;
+    }
+)
+
 const FoodModel = model("Food", foodSchema);
 
-export { IFood, foodSchema, FoodModel };
+export {
+    IFood,
+    foodSchema,
+    FoodModel
+};

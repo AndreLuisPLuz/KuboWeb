@@ -20,6 +20,14 @@ const handleError = (err: Error, req: Request, res: Response, next: NextFunction
         
         case UpsertError:
             return res.status(500).json({ message: err.message });
+        
+        default:
+            if (process.env.NODE_ENV == "development") {
+                console.error(err);
+                return res.status(500).json({ message: "Unknown server error", exception: err.message });
+            }
+
+            return res.status(500).json({ message: "Unknown server error" });
     }
 };
 

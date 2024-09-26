@@ -3,11 +3,12 @@ import { FoodModel, foodSchema, IFood } from "./foodSchema";
 import Kitchen from "../../../domain/aggregates/kubo/kitchen";
 
 interface IKitchen {
-    availableFood: [IFood, IFood, IFood];
+    availableFood: (IFood | null)[];
 }
 
 interface IKitchenMethods {
     toKitchen(): Kitchen;
+    fromKitchen(kitchen: Kitchen): Kitchen;
 }
 
 type KitchenSchema = Model<IKitchen, {}, IKitchenMethods>;
@@ -23,6 +24,17 @@ kitchenSchema.method("toKitchen",
                 f => new FoodModel(f).toFood()
             )
         });
+    }
+)
+
+kitchenSchema.method("fromKitchen",
+    function fromKitchen(kitchen: Kitchen): IKitchen {
+        this.availableFood = kitchen.availableFood.map(f => f
+            ? new FoodModel().fromFood(f)
+            : null
+        );
+
+        return this;
     }
 )
 
