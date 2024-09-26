@@ -24,7 +24,7 @@ class JwtService {
 
         const userContext = applicationContainer.get(APP_TOKENS.userContext);
 
-        jsonwebtoken.verify(token, process.env.APP_SECRET_KEY,
+        jsonwebtoken.verify(token, process.env.APP_SECRET_KEY!,
             (err: any, decoded: any) => {
                 if (err)
                     throw new InvalidTokenError("Invalid token.")

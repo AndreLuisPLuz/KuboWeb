@@ -28,16 +28,22 @@ class CosmeticCommandHandler implements ICommandHandler<string, CreateCosmetic> 
 
         switch (command.concreteType) {
             case "CreateCosmetic": return await this.handleCreateCosmetic(command);
-        }
+        } 
     }
 
     private handleCreateCosmetic = async (command: CreateCosmetic): Promise<string> => {
+        console.log("Cheguei no handle.");
+
         const newCosmetic = Cosmetic.createNew({
             type: CosmeticType.getInstance(command.type as Type),
             ...command.props
         });
 
+        console.log("Criei o cosmetic.");
+
         const savedCosmetic = await this.repo.upsertAsync(newCosmetic);
+
+        console.log("Salvei!");
 
         if (savedCosmetic == null)
             throw new UpsertError("Could not insert new cosmetic option.");

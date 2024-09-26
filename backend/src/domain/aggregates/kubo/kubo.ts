@@ -22,6 +22,7 @@ type KuboCreateProps = Omit<KuboProps,
     "health" | "hunger" | "happiness" | "coins" | "kitchen">;
 
 class Kubo extends Entity<KuboProps> {
+    public get userId() { return this.props.userId };
     public get nickname() { return this.props.nickname };
     public get color() { return this.props.color };
     public get health() { return this.props.health };

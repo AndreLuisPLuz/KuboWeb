@@ -31,7 +31,10 @@ class MongoKuboRepository extends BaseMongoRepository<IKubo, Kubo> {
     };
 
     protected parse = (entity: Kubo): Document<unknown, {}, IKubo> & IKubo & Required<{ _id: string; }> => {
-        throw new Error();
+        return {
+            userId: entity.userId,
+            nickname: 
+        };
     };
 }
 

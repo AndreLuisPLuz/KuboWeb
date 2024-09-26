@@ -18,9 +18,13 @@ class KuboController {
     }
 
     public CreateCosmeticOption = async (req: Request, res: Response): Promise<Response> => {
+        console.log("Cheguei no controller.");
+
         const cosmeticId = await this.cosmeticCommHandler.handleAsync(
             new CreateCosmetic(req.body)
         );
+
+        console.log("Sou burro não consigo retorarn");
 
         return res.status(201).json({ id: cosmeticId });
     };
