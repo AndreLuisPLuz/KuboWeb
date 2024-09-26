@@ -2,12 +2,24 @@ import { NextFunction, Request, Response } from "express";
 import FailedAuthenticationError from "../../application/errors/failedAuthenticationError";
 import NotFoundError from "../../application/errors/notFoundError";
 import UpsertError from "../../application/errors/upsertError";
+import InvalidHeaderError from "../../application/errors/invalidHeaderError";
+import InvalidTokenError from "../../application/errors/invalidTokenError";
 
 const handleError = (err: Error, req: Request, res: Response, next: NextFunction) => {
-    switch (true) {
-        case (err instanceof FailedAuthenticationError): res.status(400).json(err.result);
-        case (err instanceof NotFoundError): res.status(404).json({ message: err.message });
-        case (err instanceof UpsertError): res.status(400).json({ message: err.message });
+    switch (err.constructor) {
+        case FailedAuthenticationError:
+            const e = err as FailedAuthenticationError
+            return res.status(400).json(e.result);
+
+        case InvalidHeaderError:
+        case InvalidTokenError:
+            return res.status(400).json({ message: err.message });
+            
+        case NotFoundError:
+            return res.status(404).json({ message: err.message });
+        
+        case UpsertError:
+            return res.status(500).json({ message: err.message });
     }
 };
 
