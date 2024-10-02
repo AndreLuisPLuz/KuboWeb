@@ -6,8 +6,14 @@ type Criterion<TType, TKey extends keyof TType = keyof TType> = {
 };
 
 type PaginationOptions = {
-    offset: number,
-    take: number,
+    offset: number;
+    take: number;
+};
+
+type PaginationInfo = {
+    items: number;
+    currentPage?: number;
+    totalPages?: number;
 };
 
 interface IRepository<TEntity extends Entity<any>> {
@@ -18,10 +24,10 @@ interface IRepository<TEntity extends Entity<any>> {
     findManyByCriteriaAsync<TInterface> (
             criteria: Criterion<TInterface>[],
             pagination?: PaginationOptions,
-    ): Promise<TEntity[]>;
+    ): Promise<{ data: TEntity[] } & PaginationInfo>;
     
     upsertAsync: (entity: TEntity) => Promise<TEntity | null>;
 }
 
-export type { Criterion, PaginationOptions };
+export type { Criterion, PaginationOptions, PaginationInfo };
 export default IRepository;

@@ -61,17 +61,18 @@ class CosmeticQueryHandler implements
             .tryAdd("type", query.type)
             .build();
 
-        const cosmetics = await this.repo.findManyByCriteriaAsync(
+        const cosmeticsFetch = await this.repo.findManyByCriteriaAsync(
             criteria,
             pagination(query.page, query.size),
         );
 
         return {
-            cosmetics: cosmetics.map(c => ({
+            cosmetics: cosmeticsFetch.data.map(c => ({
                 id: c._id,
                 name: c.name,
                 type: c.type.type
             })),
+            ...cosmeticsFetch,
         };
     }
 }

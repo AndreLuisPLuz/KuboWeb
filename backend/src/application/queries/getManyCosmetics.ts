@@ -1,6 +1,7 @@
 import IQuery from "../seed/query";
 import { v4 as uuid } from "uuid";
 import { CosmeticDetails } from "./getCosmeticDetails";
+import { PaginationInfo } from "../../domain/seed/repository";
 
 type GetManyCosmeticsProps = {
     page: number;
@@ -10,7 +11,7 @@ type GetManyCosmeticsProps = {
 
 type ManyCosmetics = {
     cosmetics: Omit<CosmeticDetails, "imagePath">[];
-}
+} & PaginationInfo;
 
 class GetManyCosmetics implements IQuery<GetManyCosmeticsProps, ManyCosmetics> {
     queryId: string;
