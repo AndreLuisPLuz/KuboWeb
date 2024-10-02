@@ -14,7 +14,7 @@ import Password from "../../domain/aggregates/user/password";
 import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
 import NotFoundError from "../errors/notFoundError";
 import FailedAuthenticationError from "../errors/failedAuthenticationError";
-import JwtService from "../crossCutting/jwtService";
+import JwtService from "../crossCutting/services/jwtService";
 
 type UserCommand =
     | AuthenticateUser

@@ -5,7 +5,7 @@ import UserCommandHandler from "./handlers/userCommandHandler";
 import UserQueryHandler from "./handlers/userQueryHandler";
 import CosmeticCommandHandler from "./handlers/cosmeticCommandHandler";
 import KuboCommandHandler from "./handlers/kuboCommandHandler";
-import UserContext from "./crossCutting/userContext";
+import UserContext from "./crossCutting/contexts/userContext";
 
 const APP_TOKENS = {
     cosmeticCommandHandler: token<CosmeticCommandHandler>("cosmeticCommandHandler"),

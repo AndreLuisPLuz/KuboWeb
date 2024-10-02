@@ -1,8 +1,8 @@
 import "dotenv/config";
 import jsonwebtoken from "jsonwebtoken";
-import { SucceededAuth } from "../../domain/aggregates/user/types/authenticationResult";
-import InvalidTokenError from "../errors/invalidTokenError";
-import { APP_TOKENS, applicationContainer } from "../container";
+import { SucceededAuth } from "../../../domain/aggregates/user/types/authenticationResult";
+import InvalidTokenError from "../../errors/invalidTokenError";
+import { APP_TOKENS, applicationContainer } from "../../container";
 
 class JwtService {
     public static generateToken = (auth: SucceededAuth): string => {
