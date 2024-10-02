@@ -6,9 +6,11 @@ import UserQueryHandler from "./handlers/userQueryHandler";
 import CosmeticCommandHandler from "./handlers/cosmeticCommandHandler";
 import KuboCommandHandler from "./handlers/kuboCommandHandler";
 import UserContext from "./crossCutting/contexts/userContext";
+import CosmeticQueryHandler from "./handlers/cosmeticQueryHandler";
 
 const APP_TOKENS = {
     cosmeticCommandHandler: token<CosmeticCommandHandler>("cosmeticCommandHandler"),
+    cosmeticQueryHandler: token<CosmeticQueryHandler>("cosmeticQueryHandler"),
     kuboCommandHandler: token<KuboCommandHandler>("kuboCommandHandler"),
     userCommandHandler: token<UserCommandHandler>("userCommandHandler"),
     userQueryHandler: token<UserQueryHandler>("userQueryHandler"),
@@ -19,6 +21,10 @@ const applicationContainer = new Container().extend(infrastructureContainer);
 
 applicationContainer.bind(APP_TOKENS.cosmeticCommandHandler)
     .toInstance(CosmeticCommandHandler)
+    .inSingletonScope();
+
+applicationContainer.bind(APP_TOKENS.cosmeticQueryHandler)
+    .toInstance(CosmeticQueryHandler)
     .inSingletonScope();
 
 applicationContainer.bind(APP_TOKENS.kuboCommandHandler)
