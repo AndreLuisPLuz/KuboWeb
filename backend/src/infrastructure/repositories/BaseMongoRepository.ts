@@ -1,5 +1,5 @@
 import { HydratedDocument, Model, Query } from "mongoose";
-import IRepository, { Criteria, PaginationOptions } from "../../domain/seed/repository";
+import IRepository, { Criterion, PaginationOptions } from "../../domain/seed/repository";
 import Entity from "../../domain/seed/entity";
 import { number } from "ts-pattern/dist/patterns";
 
@@ -26,10 +26,10 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         return entity;
     };
 
-    findManyByCriteriaAsync = async (
-            criteria: Criteria<TEntity, keyof TEntity>[],
+    async findManyByCriteriaAsync<TInterface>(
+            criteria: Criterion<TInterface, keyof TInterface>[],
             pagination?: PaginationOptions
-    )       : Promise<TEntity[]> => {
+    )       : Promise<TEntity[]> {
         const filter: Record<string, any> = {};
 
         criteria.forEach(c => {

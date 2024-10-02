@@ -1,10 +1,13 @@
 import { injected } from "brandi";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
+import { ICosmetic } from "../../infrastructure/schemas/cosmetic/cosmeticSchema";
 
 import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
-import IRepository, { Criteria, PaginationOptions } from "../../domain/seed/repository";
+import IRepository from "../../domain/seed/repository";
 import IQueryHandler from "../seed/queryHandler";
 import NotFoundError from "../errors/notFoundError";
+import pagination from "../crossCutting/builders/pagination";
+import CriteriaBuilder from "../crossCutting/builders/criteriaBuilder";
 
 import GetCosmeticDetails, { CosmeticDetails } from "../queries/getCosmeticDetails";
 import GetManyCosmetics, { ManyCosmetics } from "../queries/getManyCosmetics";
@@ -53,21 +56,15 @@ class CosmeticQueryHandler implements
     }
 
     private async handleGetManyCosmetics(query: GetManyCosmetics): Promise<ManyCosmetics> {
-        let criteria: Criteria<Cosmetic>[] = [];
+        const criteriaBuilder = new CriteriaBuilder<ICosmetic>();
+        const criteria = criteriaBuilder
+            .tryAdd("type", query.type)
+            .build();
 
-        if (query.type) {
-            criteria.push({
-                key: "type",
-                value: query.type
-            });
-        }
-
-        const pagination: PaginationOptions = {
-            offset: (query.page - 1) * query.size,
-            take: query.size,
-        };
-
-        const cosmetics = await this.repo.findManyByCriteriaAsync(criteria, pagination);
+        const cosmetics = await this.repo.findManyByCriteriaAsync(
+            criteria,
+            pagination(query.page, query.size),
+        );
 
         return {
             cosmetics: cosmetics.map(c => ({

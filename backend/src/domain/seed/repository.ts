@@ -1,6 +1,6 @@
 import Entity from "./entity";
 
-type Criteria<TType extends Entity<any>, TKey extends keyof TType = keyof TType> = {
+type Criterion<TType, TKey extends keyof TType = keyof TType> = {
     key: TKey;
     value: TType[TKey];
 };
@@ -15,13 +15,13 @@ interface IRepository<TEntity extends Entity<any>> {
 
     findByIdAsync: (id: string) => Promise<TEntity | null>;
 
-    findManyByCriteriaAsync: (
-            criteria: Criteria<TEntity>[],
+    findManyByCriteriaAsync<TInterface> (
+            criteria: Criterion<TInterface>[],
             pagination?: PaginationOptions,
-    ) => Promise<TEntity[]>;
+    ): Promise<TEntity[]>;
     
     upsertAsync: (entity: TEntity) => Promise<TEntity | null>;
 }
 
-export type { Criteria, PaginationOptions };
+export type { Criterion, PaginationOptions };
 export default IRepository;
