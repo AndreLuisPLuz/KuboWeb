@@ -14,6 +14,7 @@ type UserDetails = {
 class GetUserDetails implements IQuery<GetUserDetailsProps, UserDetails> {
     queryId: string;
     props: GetUserDetailsProps;
+    concreteType: "GetUserDetails" = "GetUserDetails";
 
     get id() { return this.props.id };
 
@@ -23,4 +24,5 @@ class GetUserDetails implements IQuery<GetUserDetailsProps, UserDetails> {
     }
 }
 
-export { GetUserDetails, UserDetails };
+export type { UserDetails };
+export default GetUserDetails;

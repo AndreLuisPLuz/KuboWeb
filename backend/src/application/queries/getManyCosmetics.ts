@@ -9,12 +9,13 @@ type GetManyCosmeticsProps = {
 };
 
 type ManyCosmetics = {
-    cosmetics: Omit<CosmeticDetails, "imagePath">;
+    cosmetics: Omit<CosmeticDetails, "imagePath">[];
 }
 
 class GetManyCosmetics implements IQuery<GetManyCosmeticsProps, ManyCosmetics> {
     queryId: string;
     props: GetManyCosmeticsProps;
+    concreteType: "GetManyCosmetics" = "GetManyCosmetics";
 
     get page() { return this.props.page };
     get size() { return this.props.size };
@@ -25,3 +26,6 @@ class GetManyCosmetics implements IQuery<GetManyCosmeticsProps, ManyCosmetics> {
         this.props = props;
     }
 }
+
+export type { ManyCosmetics };
+export default GetManyCosmetics;

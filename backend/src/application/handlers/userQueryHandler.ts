@@ -1,11 +1,15 @@
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
 import { injected } from "brandi";
-import { GetUserDetails, UserDetails } from "../queries/getUserDetails";
 
 import User from "../../domain/aggregates/user/user";
 import IRepository from "../../domain/seed/repository";
 import IQueryHandler from "../seed/queryHandler";
 import NotFoundError from "../errors/notFoundError";
+
+import GetUserDetails, { UserDetails } from "../queries/getUserDetails";
+
+type UserQuery =
+    | GetUserDetails;
 
 class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
     private repo: IRepository<User>;
@@ -18,7 +22,17 @@ class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
         this.repo = infrastructureContainer.get(INFRA_TOKENS.userRepository);
     };
 
-    handleAsync = async (query: GetUserDetails): Promise<UserDetails> => {
+    async handleAsync(query: GetUserDetails): Promise<UserDetails>;
+
+    async handleAsync(query: UserQuery): Promise<UserDetails> {
+        this.solveDependencies();
+
+        switch (query.concreteType) {
+            case "GetUserDetails": return await this.handleGetUserDetails(query);
+        }
+    }
+
+    private async handleGetUserDetails(query: GetUserDetails): Promise<UserDetails> {
         const user = await this.repo.findByIdAsync(query.id);
 
         if (user == null)

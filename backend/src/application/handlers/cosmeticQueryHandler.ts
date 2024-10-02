@@ -1,12 +1,21 @@
 import { injected } from "brandi";
-import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
-import IRepository from "../../domain/seed/repository";
-import { CosmeticDetails, GetCosmeticDetails } from "../queries/getCosmeticDetails";
-import IQueryHandler from "../seed/queryHandler";
 import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
+
+import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
+import IRepository, { Criteria, PaginationOptions } from "../../domain/seed/repository";
+import IQueryHandler from "../seed/queryHandler";
 import NotFoundError from "../errors/notFoundError";
 
-class CosmeticQueryHandler implements IQueryHandler<CosmeticDetails, GetCosmeticDetails> {
+import GetCosmeticDetails, { CosmeticDetails } from "../queries/getCosmeticDetails";
+import GetManyCosmetics, { ManyCosmetics } from "../queries/getManyCosmetics";
+
+type CosmeticQuery =
+    | GetCosmeticDetails
+    | GetManyCosmetics;
+
+class CosmeticQueryHandler implements
+        IQueryHandler<CosmeticDetails, GetCosmeticDetails>,
+        IQueryHandler<ManyCosmetics, GetManyCosmetics> {
     private repo: IRepository<Cosmetic>;
 
     constructor(repository: IRepository<Cosmetic>) {
@@ -17,9 +26,19 @@ class CosmeticQueryHandler implements IQueryHandler<CosmeticDetails, GetCosmetic
         this.repo = infrastructureContainer.get(INFRA_TOKENS.cosmeticRepository);
     };
 
-    handleAsync = async (query: GetCosmeticDetails): Promise<CosmeticDetails> => {
+    async handleAsync(query: GetCosmeticDetails): Promise<CosmeticDetails>;
+    async handleAsync(query: GetManyCosmetics): Promise<ManyCosmetics>;
+
+    async handleAsync(query: CosmeticQuery): Promise<CosmeticDetails | ManyCosmetics> {
         this.solveDependencies();
 
+        switch (query.concreteType) {
+            case "GetCosmeticDetails": return await this.handleGetCosmeticDetails(query);
+            case "GetManyCosmetics": return await this.handleGetManyCosmetics(query);
+        }
+    };
+
+    private async handleGetCosmeticDetails(query: GetCosmeticDetails): Promise<CosmeticDetails> {
         const cosmetic = await this.repo.findByIdAsync(query.id);
 
         if (cosmetic == null)
@@ -31,7 +50,33 @@ class CosmeticQueryHandler implements IQueryHandler<CosmeticDetails, GetCosmetic
             imagePath: cosmetic.imagePath,
             type: cosmetic.type.type
         };
-    };
+    }
+
+    private async handleGetManyCosmetics(query: GetManyCosmetics): Promise<ManyCosmetics> {
+        let criteria: Criteria<Cosmetic>[] = [];
+
+        if (query.type) {
+            criteria.push({
+                key: "type",
+                value: query.type
+            });
+        }
+
+        const pagination: PaginationOptions = {
+            offset: (query.page - 1) * query.size,
+            take: query.size,
+        };
+
+        const cosmetics = await this.repo.findManyByCriteriaAsync(criteria, pagination);
+
+        return {
+            cosmetics: cosmetics.map(c => ({
+                id: c._id,
+                name: c.name,
+                type: c.type.type
+            })),
+        };
+    }
 }
 
 injected(CosmeticQueryHandler, INFRA_TOKENS.cosmeticRepository);

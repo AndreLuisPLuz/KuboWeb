@@ -15,6 +15,7 @@ type CosmeticDetails = {
 class GetCosmeticDetails implements IQuery<GetCosmeticDetailsProps, CosmeticDetails> {
     queryId: string;
     props: GetCosmeticDetailsProps;
+    concreteType: "GetCosmeticDetails" = "GetCosmeticDetails";
 
     get id() { return this.props.id };
 
@@ -24,4 +25,5 @@ class GetCosmeticDetails implements IQuery<GetCosmeticDetailsProps, CosmeticDeta
     }
 }
 
-export { GetCosmeticDetails, CosmeticDetails };
+export type { CosmeticDetails };
+export default GetCosmeticDetails;
