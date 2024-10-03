@@ -42,7 +42,7 @@ class CosmeticQueryHandler implements
     };
 
     private async handleGetCosmeticDetails(query: GetCosmeticDetails): Promise<CosmeticDetails> {
-        const cosmetic = await this.repo.findByIdAsync(query.id);
+        const cosmetic = await this.repo.findAsync(query.id);
 
         if (cosmetic == null)
             throw new NotFoundError("Cosmetic not found.");
@@ -61,7 +61,7 @@ class CosmeticQueryHandler implements
             .tryAdd("type", query.type)
             .build();
 
-        const cosmeticsFetch = await this.repo.findManyByCriteriaAsync(
+        const cosmeticsFetch = await this.repo.findManyAsync(
             criteria,
             pagination(query.page, query.size),
         );

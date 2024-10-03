@@ -15,6 +15,9 @@ import IUserRepository from "../../domain/aggregates/user/contracts/userReposito
 import NotFoundError from "../errors/notFoundError";
 import FailedAuthenticationError from "../errors/failedAuthenticationError";
 import JwtService from "../crossCutting/services/jwtService";
+import IRepository from "../../domain/seed/repository";
+import CriteriaBuilder from "../crossCutting/builders/criteriaBuilder";
+import { IUser } from "../../infrastructure/schemas/user/userSchema";
 
 type UserCommand =
     | AuthenticateUser
@@ -24,10 +27,10 @@ class UserCommandHandler
     implements
         ICommandHandler<string, RegisterUser>,
         ICommandHandler<string, AuthenticateUser> {
-    private repo: IUserRepository;
+    private repo: IRepository<User>;
 
     constructor(
-            repo: IUserRepository,
+            repo: IRepository<User>,
     ) {
         this.repo = repo;
     }
@@ -49,7 +52,11 @@ class UserCommandHandler
     }
 
     private async handleAuthenticateUser(command: AuthenticateUser): Promise<string> {
-        const user = await this.repo.findByUsernameAsync(command.username);
+        const user = await this.repo.findOneAsync(
+            new CriteriaBuilder<IUser>()
+                .tryAdd("username", command.username)
+                .build()
+        );
 
         if (user == null)
             throw new NotFoundError("User corresponding to email not found.");

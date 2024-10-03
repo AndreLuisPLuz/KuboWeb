@@ -19,9 +19,13 @@ type PaginationInfo = {
 interface IRepository<TEntity extends Entity<any>> {
     existsAsync: (id: string) => Promise<boolean>;
 
-    findByIdAsync: (id: string) => Promise<TEntity | null>;
+    existsByCriteriaAsync<TInterface> (criteria: Criterion<TInterface>[]): Promise<boolean>;
 
-    findManyByCriteriaAsync<TInterface> (
+    findAsync: (id: string) => Promise<TEntity | null>;
+
+    findOneAsync<TInterface> (criteria: Criterion<TInterface>[]): Promise<TEntity | null>;
+
+    findManyAsync<TInterface> (
             criteria: Criterion<TInterface>[],
             pagination?: PaginationOptions,
     ): Promise<{ data: TEntity[] } & PaginationInfo>;

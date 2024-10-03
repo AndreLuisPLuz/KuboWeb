@@ -33,7 +33,7 @@ class UserQueryHandler implements IQueryHandler<UserDetails, GetUserDetails> {
     }
 
     private async handleGetUserDetails(query: GetUserDetails): Promise<UserDetails> {
-        const user = await this.repo.findByIdAsync(query.id);
+        const user = await this.repo.findAsync(query.id);
 
         if (user == null)
             throw new NotFoundError("User not found.");

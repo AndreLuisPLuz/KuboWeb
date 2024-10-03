@@ -1,26 +1,30 @@
 import { injected } from "brandi";
+import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
+
+import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
+import IRepository from "../../domain/seed/repository";
+import ICommandHandler from "../seed/commandHandler";
+import NotFoundError from "../errors/notFoundError";
+import UpsertError from "../errors/upsertError";
+
 import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
 import Kubo from "../../domain/aggregates/kubo/kubo";
 import Nickname from "../../domain/aggregates/kubo/nickname";
-import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
-import IRepository from "../../domain/seed/repository";
-import { INFRA_TOKENS, infrastructureContainer } from "../../infrastructure/container";
+
 import CreateKubo from "../commands/createKubo";
-import NotFoundError from "../errors/notFoundError";
-import UpsertError from "../errors/upsertError";
-import ICommandHandler from "../seed/commandHandler";
+import User from "../../domain/aggregates/user/user";
 
 type KuboCommand =
     | CreateKubo;
 
 class KuboCommandHandler implements ICommandHandler<string, CreateKubo> {
     private repo: IRepository<Kubo>;
-    private userRepo: IUserRepository;
+    private userRepo: IRepository<User>;
     private cosmeticRepo: IRepository<Cosmetic>;
 
     constructor(
             repository: IRepository<Kubo>,
-            userRepository: IUserRepository,
+            userRepository: IRepository<User>,
             cosmeticRepository: IRepository<Cosmetic>,
     ) {
         this.repo = repository;
@@ -45,10 +49,16 @@ class KuboCommandHandler implements ICommandHandler<string, CreateKubo> {
     }
 
     private async handleCreateKubo(command: CreateKubo): Promise<string> {
-        const user = this.userRepo.findByIdAsync(command.userId);
+        const userExists = this.userRepo.existsAsync(command.userId);
 
-        if (user == null)
+        if (!userExists)
             throw new NotFoundError("User not found.");
+    
+        const eyesExist = this.cosmeticRepo.existsAsync(command.eyesId);
+        const hatExists = this.cosmeticRepo.existsAsync(command.hatId);
+
+        if (!eyesExist || !hatExists)
+            throw new NotFoundError("Cosmetics not found.");
 
         const newKubo = Kubo.createNew({
             userId: command.userId,

@@ -4,25 +4,12 @@ import { UserConfigurationModel } from "../schemas/user/configurationSchema";
 
 import User from "../../domain/aggregates/user/user";
 import BaseMongoRepository from "./BaseMongoRepository";
-import IUserRepository from "../../domain/aggregates/user/contracts/userRepository";
 import Password from "../../domain/aggregates/user/password";
 
-class MongoUserRepository
-        extends BaseMongoRepository<IUser, User>
-        implements IUserRepository {
+class MongoUserRepository extends BaseMongoRepository<IUser, User> {
     public constructor() {
         super(UserModel);
     }
-
-    public findByUsernameAsync = async (username: string): Promise<User | null> => {
-        const document = await this.model.findOne({ username: username }).exec();
-
-        if (document == null)
-            return null;
-
-        const entity = this.loadFromDocument(document);
-        return entity;
-    };
 
     protected parse = (entity: User): IUser => {
         return {

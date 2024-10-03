@@ -5,13 +5,13 @@ import Language from "../domain/aggregates/translation/language";
 import MongoKuboRepository from "./repositories/MongoKuboRepository";
 import MongoUserRepository from "./repositories/MongoUserRepository";
 import MongoTranslationRepository from "./repositories/MongoTranslationRepository";
-import IUserRepository from "../domain/aggregates/user/contracts/userRepository";
 import Cosmetic from "../domain/aggregates/cosmetic/cosmetic";
 import MongoCosmeticRepository from "./repositories/MongoCosmeticRepository";
+import User from "../domain/aggregates/user/user";
 
 const INFRA_TOKENS = {
     kuboRepository: token<IRepository<Kubo>>("kuboRepository"),
-    userRepository: token<IUserRepository>("userRepository"),
+    userRepository: token<IRepository<User>>("userRepository"),
     translationRepository: token<IRepository<Language>>("translationRepository"),
     cosmeticRepository: token<IRepository<Cosmetic>>("cosmeticRepository"),
 };

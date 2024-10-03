@@ -1,7 +1,6 @@
-import { HydratedDocument, Model, Query } from "mongoose";
+import { HydratedDocument, Model } from "mongoose";
 import IRepository, { Criterion, PaginationInfo, PaginationOptions } from "../../domain/seed/repository";
 import Entity from "../../domain/seed/entity";
-import { number } from "ts-pattern/dist/patterns";
 
 abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         implements IRepository<TEntity> {
@@ -15,8 +14,20 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         const document = await this.model.exists({ _id: id });
         return (document != null);
     };
+
+    async existsByCriteriaAsync<TInterface>(criteria: Criterion<TInterface>[]): Promise<boolean> {
+        const filter: Record<string, any> = {};
+
+        criteria.forEach(c => {
+            filter[c.key as string] = c.value;
+        });
+
+        const document = await this.model.exists(filter);
+
+        return (document != null);
+    }
     
-    findByIdAsync = async (id: string): Promise<any> => {
+    findAsync = async (id: string): Promise<any> => {
         const document = await this.model.findById(id).exec();
         
         if (document == null)
@@ -26,7 +37,23 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         return entity;
     };
 
-    async findManyByCriteriaAsync<TInterface>(
+    async findOneAsync<TInterface>(criteria: Criterion<TInterface, keyof TInterface>[]): Promise<TEntity | null> {
+        const filter: Record<string, any> = {};
+
+        criteria.forEach(c => {
+            filter[c.key as string] = c.value;
+        });
+
+        const document = await this.model.findOne(filter).exec();
+
+        if (document == null)
+            return null;
+
+        const entity = this.loadFromDocument(document);
+        return entity;
+    }
+
+    async findManyAsync<TInterface>(
             criteria: Criterion<TInterface, keyof TInterface>[],
             pagination?: PaginationOptions
     )       : Promise<{ data: TEntity[] } & PaginationInfo> {
