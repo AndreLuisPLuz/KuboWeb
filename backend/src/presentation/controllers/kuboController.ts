@@ -33,7 +33,11 @@ class KuboController {
 
     public FindManyCosmeticOptions = async (req: Request, res: Response): Promise<Response> => {
         const cosmetics = await this.cosmeticQueryHandler.handleAsync(
-            new GetManyCosmetics(req.body)
+            new GetManyCosmetics({
+                page: Number(req.query.page),
+                size: Number(req.query.size),
+                type: req.body.type || undefined,
+            })
         );
 
         return res.status(200).json(cosmetics);

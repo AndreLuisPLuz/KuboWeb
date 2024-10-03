@@ -72,7 +72,9 @@ class CosmeticQueryHandler implements
                 name: c.name,
                 type: c.type.type
             })),
-            ...cosmeticsFetch,
+            currentPage: cosmeticsFetch.currentPage,
+            totalPages: cosmeticsFetch.totalPages,
+            items: cosmeticsFetch.items,
         };
     }
 }
