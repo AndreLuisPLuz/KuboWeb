@@ -22,6 +22,26 @@ class KuboStat extends ValueObject<KuboStatProps> {
     
         return new KuboStat({ currentLevel, ...props });
     }
+
+    public static updateOnNewSession = (stat: KuboStat, minutesPassed: number): KuboStat => {
+        const newLevel = stat.level - minutesPassed;
+
+        return new KuboStat({
+            description: stat.description,
+            currentLevel: this.setBetweenBounds(newLevel),
+        });
+    }
+
+    private static setBetweenBounds = (level: number): number => {
+        if (level < this.minLevel)
+            return this.minLevel;
+
+        if (level > this.maxLevel) {
+            return this.maxLevel;
+        }
+
+        return level;
+    }
 }
 
 export default KuboStat;

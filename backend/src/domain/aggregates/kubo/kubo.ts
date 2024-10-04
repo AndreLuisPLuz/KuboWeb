@@ -16,6 +16,7 @@ type KuboProps = {
     hatId: string;
     eyesId: string;
     kitchen: Kitchen;
+    lastSession: Date;
 };
 
 type KuboCreateProps = Omit<KuboProps,
@@ -32,6 +33,7 @@ class Kubo extends Entity<KuboProps> {
     public get hatId() { return this.props.hatId };
     public get eyesId() { return this.props.eyesId };
     public get kitchen() { return this.props.kitchen };
+    public get lastSession() { return this.props.lastSession };
 
     private constructor(
             props: KuboProps,
@@ -47,13 +49,25 @@ class Kubo extends Entity<KuboProps> {
             hunger: StatFactory.createHunger(100),
             happiness: StatFactory.createHappiness(100),
             coins: 100,
-            kitchen: Kitchen.createNew({ availableFood: [] })
+            kitchen: Kitchen.createNew({ availableFood: [] }),
+            lastSession: new Date(),
         });
     };
 
     public static load = (id: string, props: KuboProps): Kubo => {
         return new Kubo(props, id);
     };
+
+    public openNewSession = () => {
+        const millisPassed = this.lastSession.getTime() - new Date().getTime();
+        const minutesPassed = Math.floor(millisPassed / 60_000);
+
+        this.props.health = KuboStat.updateOnNewSession(this.health, minutesPassed);
+        this.props.hunger = KuboStat.updateOnNewSession(this.hunger, minutesPassed);
+        this.props.happiness = KuboStat.updateOnNewSession(this.happiness, minutesPassed);
+
+        this.props.lastSession = new Date();
+    }
 }
 
 export default Kubo;
