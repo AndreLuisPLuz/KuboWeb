@@ -8,6 +8,7 @@ import CriteriaBuilder from "../crossCutting/builders/criteriaBuilder";
 import { IKubo } from "../../infrastructure/schemas/kubo/kuboSchema";
 import NotFoundError from "../errors/notFoundError";
 import Cosmetic from "../../domain/aggregates/cosmetic/cosmetic";
+import KuboMapper from "../mapping/kuboMapper";
 
 class KuboQueryHandler implements IQueryHandler<KuboDetails, GetKuboDetails> {
     private repo: IRepository<Kubo>;
@@ -34,32 +35,15 @@ class KuboQueryHandler implements IQueryHandler<KuboDetails, GetKuboDetails> {
         if (kubo == null)
             throw new NotFoundError("Kubo not found.");
 
-        const eyes = await this.cosmeticRepo.findAsync(kubo.eyesId);
-        const hat = await this.cosmeticRepo.findAsync(kubo.hatId);
+        const [eyes, hat] = await Promise.all([
+            this.cosmeticRepo.findAsync(kubo.eyesId),
+            this.cosmeticRepo.findAsync(kubo.hatId)
+        ]);
 
         if (eyes == null || hat == null)
             throw new NotFoundError("Cosmetics not found.");
 
-        return {
-            id: kubo._id,
-            nickname: kubo.nickname.value,
-            color: kubo.color,
-            health: kubo.health.level,
-            hunger: kubo.hunger.level,
-            happiness: kubo.happiness.level,
-            hat: {
-                id: kubo.hatId,
-                name: hat.name,
-                imagePath: hat.name,
-                type: hat.type.type,
-            },
-            eyes: {
-                id: kubo.eyesId,
-                name: eyes.name,
-                imagePath: eyes.name,
-                type: eyes.type.type,
-            },
-        }
+        return KuboMapper.toKuboDetails(kubo, eyes, hat);
     }
 }
 
