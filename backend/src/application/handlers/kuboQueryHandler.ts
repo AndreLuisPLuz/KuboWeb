@@ -27,9 +27,10 @@ class KuboQueryHandler implements IQueryHandler<KuboDetails, GetKuboDetails> {
     }
 
     async handleAsync(query: GetKuboDetails): Promise<KuboDetails> {
-        const kubo = await this.repo.findOneAsync(new CriteriaBuilder<IKubo>()
-            .tryAdd("userId", query.userId)
-            .build()
+        const kubo = await this.repo.findOneAsync(
+            new CriteriaBuilder<IKubo>()
+                .tryAdd("userId", query.userId)
+                .build()
         );
 
         if (kubo == null)
