@@ -1,6 +1,7 @@
 import { HydratedDocument, Model } from "mongoose";
 import IRepository, { Criterion, PaginationInfo, PaginationOptions } from "../../domain/seed/repository";
 import Entity from "../../domain/seed/entity";
+import { match } from "ts-pattern";
 
 abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         implements IRepository<TEntity> {
@@ -14,19 +15,15 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
         const document = await this.model.exists({ _id: id });
         return (document != null);
     };
-
+    
     async existsByCriteriaAsync<TInterface>(criteria: Criterion<TInterface>[]): Promise<boolean> {
-        const filter: Record<string, any> = {};
-
-        criteria.forEach(c => {
-            filter[c.key as string] = c.value;
-        });
+        const filter = this.buildCriteria(criteria);
 
         const document = await this.model.exists(filter);
 
         return (document != null);
     }
-    
+
     findAsync = async (id: string): Promise<any> => {
         const document = await this.model.findById(id).exec();
         
@@ -38,11 +35,7 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
     };
 
     async findOneAsync<TInterface>(criteria: Criterion<TInterface, keyof TInterface>[]): Promise<TEntity | null> {
-        const filter: Record<string, any> = {};
-
-        criteria.forEach(c => {
-            filter[c.key as string] = c.value;
-        });
+        const filter = this.buildCriteria(criteria);
 
         const document = await this.model.findOne(filter).exec();
 
@@ -57,11 +50,7 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
             criteria: Criterion<TInterface, keyof TInterface>[],
             pagination?: PaginationOptions
     )       : Promise<{ data: TEntity[] } & PaginationInfo> {
-        const filter: Record<string, any> = {};
-
-        criteria.forEach(c => {
-            filter[c.key as string] = c.value;
-        });
+        const filter = this.buildCriteria(criteria);
 
         let query = this.model.find(filter);
         let paginationInfo: PaginationInfo = { items: 0 };
@@ -96,7 +85,11 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
 
     protected abstract loadFromDocument: (document: HydratedDocument<TInterface>) => TEntity;
 
-    private async applyPagination(query: any, filter: Record<string, any>, pagination: PaginationOptions): Promise<PaginationInfo> {
+    private async applyPagination(
+            query: any,
+            filter: Record<string, any>,
+            pagination: PaginationOptions
+    )       : Promise<PaginationInfo> {
         const totalItems = await this.model.countDocuments(filter).exec();
     
         const totalPages = Math.ceil(totalItems / pagination.take);
@@ -110,6 +103,23 @@ abstract class BaseMongoRepository<TInterface, TEntity extends Entity<any>>
             items: totalItems,
         };
     }
+
+    private buildCriteria<TInterface> (criteria: Criterion<TInterface, keyof TInterface>[]): Record<string, any> {
+        const filter: Record<string, any> = {};
+
+        criteria.forEach(c => {
+            filter[c.key as string] = match(c.operator)
+                .with("eq", () => c.value)
+                .with("ne", () => { $ne: c.value })
+                .with("gt", () => { $gt: c.value })
+                .with("gte", () => { $gte: c.value })
+                .with("lt", () => { $lt: c.value })
+                .with("lte", () => { $lte: c.value })
+                .otherwise(() => c.value);
+        });
+
+        return filter;
+    };
 }
 
 export default BaseMongoRepository;

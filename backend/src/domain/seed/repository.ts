@@ -3,6 +3,7 @@ import Entity from "./entity";
 type Criterion<TType, TKey extends keyof TType = keyof TType> = {
     key: TKey;
     value: TType[TKey];
+    operator?: "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
 };
 
 type PaginationOptions = {

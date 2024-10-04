@@ -9,12 +9,12 @@ class CriteriaBuilder<TEntity> {
 
     tryAdd = (
             key: keyof TEntity,
-            value: TEntity[keyof TEntity] | undefined
+            value: TEntity[keyof TEntity] | undefined,
+            operator?: "eq" | "ne" | "gt" | "gte" | "lt" | "lte",
     ):      CriteriaBuilder<TEntity> => {
         if (value) {
             this.criteria.push({
-                key: key,
-                value: value
+                key, value, operator
             })
         }
 
