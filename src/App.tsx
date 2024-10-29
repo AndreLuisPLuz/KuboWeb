@@ -14,7 +14,7 @@ function App() {
   return (
       <ThemeProvider>
        <Routes>
-        <Route path="/login" element={<Login />}/>
+        <Route path="/" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
         <Route path="/personalize" element={<Personalize />}/>
         <Route path="/home" element={<Home />}/>
