@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useContext } from "react";
 import { Button, ButtonsContainer, ThemeIcon, Nav, IconBackground } from "./style";
 import { ThemeContext } from "../../contexts/Theme";
 import lightBulb from "../../assets/light-bulb.png";

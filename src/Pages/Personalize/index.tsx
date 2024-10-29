@@ -1,5 +1,18 @@
 import React, { useState } from "react";
-import { ContainerA, Button, ImageContainer, Container, H1, MascoteContainer, CustomizerContainerPersonalize, AccessoryOption, EyeOption, OptionsContainer, MascotPreview, CustomizerContainer } from "./style"
+import {
+    ContainerA,
+    Button,
+    ImageContainer,
+    Container,
+    H1,
+    MascoteContainer,
+    CustomizerContainerPersonalize,
+    AccessoryOption,
+    EyeOption,
+    OptionsContainer,
+    MascotPreview,
+    CustomizerContainer
+} from "./style"
 import TradicionalEyes from "../../assets/tradicionalEyes.png"
 import Normal from "../../assets/normalEyes.png"
 import Calm from "../../assets/calmEyes.png"
@@ -14,10 +27,8 @@ import MascHat from "../../assets/maschatAccessory.png"
 import pinkTie from "../../assets/pinkTieAccessory.png"
 import blueTie from "../../assets/blueTieAccessory.png"
 import RabbitEars from "../../assets/rabbitEarsAccessory.png"
-import Mouth from "../../components/Mouth/index"
+import Mouth from "../../components/Mouth";
 import { useNavigate } from "react-router-dom";
-
-
 
 const eyeOptions = [
     { id: 1, name: "Tradicional", image: TradicionalEyes },

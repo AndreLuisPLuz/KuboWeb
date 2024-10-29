@@ -1,12 +1,13 @@
-import Login from "./pages/Login"
 import './App.css'
-import Register from "./pages/Register"
-import Home from "./pages/Home"
-import Personalize from "./pages/Personalize"
-import Kitchen from "./pages/Kitchen"
-import Bedroom from "./pages/Bedroom"
+
 import { ThemeProvider } from "./contexts/Theme"
 import { Route, Routes } from "react-router-dom"
+import Login from './Pages/Login'
+import Register from './Pages/Register'
+import Personalize from './Pages/Personalize'
+import Home from './Pages/Home'
+import Kitchen from './Pages/Kitchen'
+import Bedroom from './Pages/Bedroom'
 
 function App() {
 
