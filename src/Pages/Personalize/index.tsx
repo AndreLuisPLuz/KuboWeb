@@ -1,18 +1,5 @@
 import React, { useState } from "react";
-import {
-    ContainerA,
-    Button,
-    ImageContainer,
-    Container,
-    H1,
-    MascoteContainer,
-    CustomizerContainerPersonalize,
-    AccessoryOption,
-    EyeOption,
-    OptionsContainer,
-    MascotPreview,
-    CustomizerContainer
-} from "./style"
+import { AccessoryOption, Button, Container, ContainerA, CustomizerContainer, CustomizerContainerPersonalize, EyeOption, H1, ImageContainer, MascoteContainer, MascotPreview, OptionsContainer } from "./style";
 import TradicionalEyes from "../../assets/tradicionalEyes.png"
 import Normal from "../../assets/normalEyes.png"
 import Calm from "../../assets/calmEyes.png"

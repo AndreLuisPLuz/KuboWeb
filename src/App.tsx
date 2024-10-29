@@ -2,12 +2,12 @@ import './App.css'
 
 import { ThemeProvider } from "./contexts/Theme"
 import { Route, Routes } from "react-router-dom"
-import Login from './Pages/Login'
-import Register from './Pages/Register'
-import Personalize from './Pages/Personalize'
-import Home from './Pages/Home'
-import Kitchen from './Pages/Kitchen'
-import Bedroom from './Pages/Bedroom'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Personalize from './pages/Personalize'
+import Home from './pages/Home'
+import Kitchen from './pages/Kitchen'
+import Bedroom from './pages/Bedroom'
 
 function App() {
 
