@@ -81,7 +81,7 @@ const ButtonRegistrar  = styled.button`
     text-decoration: underline;
 `;
 
-const InputEmail = styled.input`
+const InputUsername = styled.input`
 border: none;
     border-bottom: 2px solid #000000;
     background: transparent;
@@ -130,4 +130,4 @@ const Copyright = styled.div`
 `;
 
 
-export { Copyright, Container, Container2, Container3, H1 , ButtonEntrar, ButtonRegistrar, InputEmail, InputSenha, DivLogin};
+export { Copyright, Container, Container2, Container3, H1 , ButtonEntrar, ButtonRegistrar, InputUsername, InputSenha, DivLogin};
