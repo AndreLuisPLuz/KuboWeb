@@ -1,5 +1,5 @@
 import kuboApi from "../kuboApi";
-import { CosmeticsList } from "../types/cosmetics/CosmeticResponses";
+import { CosmeticsList } from "../types/cosmetics/cosmeticResponses";
 import { PaginationOptions } from "../types/shared/paginationOptions";
 
 const fetchCosmeticsService = async(
@@ -10,11 +10,7 @@ const fetchCosmeticsService = async(
 
     const response = await kuboApi.get<CosmeticsList>(
         `/kubo/cosmetic?page=${page}&size=${size}`,
-        {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        }
+        { headers: { Authorization: "Bearer " + authToken } }
     );
 
     return response.data;
