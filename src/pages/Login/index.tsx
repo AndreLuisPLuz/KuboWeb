@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ButtonEntrar, ButtonRegistrar, Copyright, Container, Container2,  H1, InputUsername, InputSenha, DivLogin } from "./style";
 import BouncingKubo from './BouncingKubo'
 import { useNavigate } from "react-router-dom";
