@@ -102,6 +102,3 @@ const MascotCustomizer: React.FC = () => {
 };
 
 export default MascotCustomizer;
-
-
-
