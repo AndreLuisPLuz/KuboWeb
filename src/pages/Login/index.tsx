@@ -30,7 +30,7 @@ const Login = () => {
 
     try{
       const response: LoginResponse = await fetchAuthService(payload);
-      localStorage.setItem("token", response.token);
+      localStorage.setItem("@TOKEN", response.token);
       Navigate("/personalize");
 
     }catch (error){

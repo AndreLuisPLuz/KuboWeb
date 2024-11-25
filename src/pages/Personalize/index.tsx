@@ -21,7 +21,7 @@ const MascotCustomizer: React.FC = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("TOKEN") as string;
+        const token = localStorage.getItem("@TOKEN") as string;
         const pagination = { page: 1, size: 20 };
 
         fetchCosmeticsService("Hat", pagination, token).then(result => {
