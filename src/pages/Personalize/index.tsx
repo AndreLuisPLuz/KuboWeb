@@ -3,15 +3,17 @@ import { AccessoryOption, Button, Container, ContainerA, CustomizerContainer, Cu
 
 import Mouth from "../../components/Mouth";
 import { useNavigate } from "react-router-dom";
-import { Cosmetic } from "../../integrations/api/types/cosmetics/cosmeticResponses";
-import { fetchCosmeticsService } from "../../integrations/api/services/cosmeticsService";
+import KuboService from "../../integrations/api/kuboService";
+import { CosmeticDto } from "../../integrations/api/types/cosmetics/cosmeticResponses";
 
 const MascotCustomizer: React.FC = () => {
-    const [eyeOptions, setEyeOptions] = useState<Cosmetic[]>([]);
-    const [hatOptions, setHatOptions] = useState<Cosmetic[]>([]);
+    const kuboService = KuboService.getInstance();
 
-    const [selectedEye, setSelectedEye] = useState<Cosmetic | null>(null);
-    const [selectedAccessory, setSelectedAccessory] = useState<Cosmetic | null>(null);
+    const [eyeOptions, setEyeOptions] = useState<CosmeticDto[]>([]);
+    const [hatOptions, setHatOptions] = useState<CosmeticDto[]>([]);
+
+    const [selectedEye, setSelectedEye] = useState<CosmeticDto | null>(null);
+    const [selectedAccessory, setSelectedAccessory] = useState<CosmeticDto | null>(null);
     const [color, setColor] = useState<string>('#57a0f3');
 
     const Navigate = useNavigate()
@@ -21,15 +23,14 @@ const MascotCustomizer: React.FC = () => {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("@TOKEN") as string;
         const pagination = { page: 1, size: 20 };
 
-        fetchCosmeticsService("Hat", pagination, token).then(result => {
-            setHatOptions(result.cosmetics);
+        kuboService.fetchCosmetics("Hat", pagination).then(result => {
+            setHatOptions(result.data);
         });
 
-        fetchCosmeticsService("Eyes", pagination, token).then(result => {
-            setEyeOptions(result.cosmetics);
+        kuboService.fetchCosmetics("Eyes", pagination).then(result => {
+            setEyeOptions(result.data);
         });
     }, []);
 

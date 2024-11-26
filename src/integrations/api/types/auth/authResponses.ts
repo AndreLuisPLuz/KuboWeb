@@ -1,9 +1,7 @@
-import { KuboApiResponse } from "../shared/response";
-
-interface LoginResponse extends KuboApiResponse {
+type AuthDto = {
     token: string,
 };
 
 export type {
-    LoginResponse,
+    AuthDto,
 };

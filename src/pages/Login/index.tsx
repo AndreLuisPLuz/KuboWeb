@@ -2,12 +2,12 @@ import { useState } from "react";
 import { ButtonEntrar, ButtonRegistrar, Copyright, Container, Container2,  H1, InputUsername, InputSenha, DivLogin } from "./style";
 import BouncingKubo from './BouncingKubo'
 import { useNavigate } from "react-router-dom";
-import { fetchAuthService } from "../../integrations/api/services/authService";
 import { AuthPayload } from "../../integrations/api/types/auth/authRequests";
-import { LoginResponse } from "../../integrations/api/types/auth/authResponses";
+import KuboService from "../../integrations/api/kuboService";
 
 const Login = () => {
   const Navigate = useNavigate()
+  const kuboService = KuboService.getInstance();
 
   const[username, setUsername] = useState<string>("");
   const[password, setPassword] = useState<string>("");
@@ -21,7 +21,7 @@ const Login = () => {
     }
 
     setLoading(true);
-    setError("");
+    setError("")
 
     const payload : AuthPayload = {
       username,
@@ -29,10 +29,8 @@ const Login = () => {
     };
 
     try{
-      const response: LoginResponse = await fetchAuthService(payload);
-      localStorage.setItem("@TOKEN", response.token);
+      await kuboService.authenticate(payload);
       Navigate("/personalize");
-
     }catch (error){
       console.error("Erro ao fazer login:", error);
       setError("Erro ao fazer login.");

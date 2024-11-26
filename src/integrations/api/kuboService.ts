@@ -1,15 +1,19 @@
 import { match } from "ts-pattern";
 import { AuthPayload } from "./types/auth/authRequests";
-import { LoginResponse } from "./types/auth/authResponses";
-import { CosmeticsList } from "./types/cosmetics/cosmeticResponses";
+import { AuthDto } from "./types/auth/authResponses";
 import { PaginationOptions } from "./types/shared/paginationOptions";
 import { CreateKuboPayload } from "./types/kubo/kuboRequests";
+import { KuboApiPaginated, KuboApiResponse } from "./types/shared/response";
+import { CosmeticDto } from "./types/cosmetics/cosmeticResponses";
+
 import MissingTokenError from "./errors/missingTokenError";
 import ServerError from "./errors/serverError";
 import ClientError from "./errors/clientError";
-import { KuboApiResponse } from "./types/shared/response";
 
 class KuboService {
+    private static service: KuboService | null = null;
+    public static getInstance = () => this.service || new KuboService();
+
     private apiInstance: Axios.AxiosInstance;
     private isAuthenticated: boolean;
 
@@ -34,7 +38,7 @@ class KuboService {
     }
 
     public authenticate = async(payload: AuthPayload): Promise<boolean> => {
-        const response = await this.apiInstance.post<LoginResponse>(
+        const response = await this.apiInstance.post<AuthDto>(
             "/auth", payload
         );
 
@@ -54,10 +58,10 @@ class KuboService {
     public fetchCosmetics = async(
             type: "Hat" | "Eyes",
             pagination: PaginationOptions
-    )       : Promise<CosmeticsList> => {
+    )       : Promise<KuboApiPaginated<CosmeticDto>> => {
         const { page, size } = pagination;
 
-        const response = await this.apiInstance.get<CosmeticsList>(
+        const response = await this.apiInstance.get<KuboApiPaginated<CosmeticDto>>(
             `/kubo/cosmetic?page=${page}&size=${size}&type=${type}`,
             { headers: { Authorization: this.authToken } }
         );
@@ -68,7 +72,7 @@ class KuboService {
     };
 
     public createKubo = async(payload: CreateKuboPayload): Promise<boolean> => {
-        const response = await this.apiInstance.post<KuboApiResponse>(
+        const response = await this.apiInstance.post<KuboApiResponse<void>>(
             "/kubo", payload,
             { headers: { Authorization: this.authToken } }
         );
@@ -78,8 +82,8 @@ class KuboService {
         return (response.status == 201);
     };
 
-    private throwIfErrorStatus = <T extends KuboApiResponse>(
-            response: Axios.AxiosXHR<T>
+    private throwIfErrorStatus = (
+            response: Axios.AxiosXHR<KuboApiPaginated<any>> | Axios.AxiosXHR<KuboApiResponse<any>>
     )       : void => {
         if (response.status >= 500) 
             throw new ServerError(response.data.message);
