@@ -3,8 +3,8 @@ import { AccessoryOption, Button, Container, ContainerA, CustomizerContainer, Cu
 
 import Mouth from "../../components/Mouth";
 import { useNavigate } from "react-router-dom";
-import { Cosmetic } from "../../api/types/cosmetics/cosmeticResponses";
-import { fetchCosmeticsService } from "../../api/services/cosmeticsService";
+import { Cosmetic } from "../../integrations/api/types/cosmetics/cosmeticResponses";
+import { fetchCosmeticsService } from "../../integrations/api/services/cosmeticsService";
 
 const MascotCustomizer: React.FC = () => {
     const [eyeOptions, setEyeOptions] = useState<Cosmetic[]>([]);

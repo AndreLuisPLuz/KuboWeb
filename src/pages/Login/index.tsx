@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ButtonEntrar, ButtonRegistrar, Copyright, Container, Container2,  H1, InputUsername, InputSenha, DivLogin } from "./style";
 import BouncingKubo from './BouncingKubo'
 import { useNavigate } from "react-router-dom";
-import { fetchAuthService } from "../../api/services/authService";
-import { Auth } from "../../api/types/auth/authRequests";
-import { LoginResponse } from "../../api/types/auth/authResponses";
+import { fetchAuthService } from "../../integrations/api/services/authService";
+import { AuthPayload } from "../../integrations/api/types/auth/authRequests";
+import { LoginResponse } from "../../integrations/api/types/auth/authResponses";
 
 const Login = () => {
   const Navigate = useNavigate()
@@ -23,7 +23,7 @@ const Login = () => {
     setLoading(true);
     setError("");
 
-    const payload : Auth = {
+    const payload : AuthPayload = {
       username,
       password
     };
