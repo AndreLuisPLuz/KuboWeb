@@ -46,7 +46,7 @@ class KuboService {
             localStorage.setItem("@TOKEN", response.data.token);
             this.isAuthenticated = true;
         }
-    
+
         return this.isAuthenticated;
     }
 
@@ -67,7 +67,7 @@ class KuboService {
         );
 
         this.throwIfErrorStatus(response);
-    
+
         return response.data;
     };
 
