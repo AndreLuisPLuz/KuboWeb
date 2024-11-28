@@ -1,3 +1,5 @@
+import { KuboApiPaginated } from "../shared/response";
+
 type CosmeticDto = {
     id: string,
     name: string,
@@ -5,4 +7,9 @@ type CosmeticDto = {
     imagePath: string,
 };
 
-export type { CosmeticDto }
+type CosmeticPaginatedResponse = KuboApiPaginated<CosmeticDto>;
+
+export type {
+    CosmeticDto,
+    CosmeticPaginatedResponse,
+}

@@ -1,10 +1,11 @@
+import axios from "axios";
 import { match } from "ts-pattern";
 import { AuthPayload } from "./types/auth/authRequests";
-import { AuthDto } from "./types/auth/authResponses";
+import { AuthResponse } from "./types/auth/authResponses";
 import { PaginationOptions } from "./types/shared/paginationOptions";
 import { CreateKuboPayload } from "./types/kubo/kuboRequests";
 import { KuboApiPaginated, KuboApiResponse } from "./types/shared/response";
-import { CosmeticDto } from "./types/cosmetics/cosmeticResponses";
+import { CosmeticDto, CosmeticPaginatedResponse } from "./types/cosmetics/cosmeticResponses";
 
 import MissingTokenError from "./errors/missingTokenError";
 import ServerError from "./errors/serverError";
@@ -38,12 +39,12 @@ class KuboService {
     }
 
     public authenticate = async(payload: AuthPayload): Promise<boolean> => {
-        const response = await this.apiInstance.post<AuthDto>(
+        const response = await this.apiInstance.post<AuthResponse>(
             "/auth", payload
         );
 
         if (response.status == 200) {
-            localStorage.setItem("@TOKEN", response.data.token);
+            localStorage.setItem("@TOKEN", response.data.data.token);
             this.isAuthenticated = true;
         }
 
@@ -58,10 +59,10 @@ class KuboService {
     public fetchCosmetics = async(
             type: "Hat" | "Eyes",
             pagination: PaginationOptions
-    )       : Promise<KuboApiPaginated<CosmeticDto>> => {
+    )       : Promise<CosmeticPaginatedResponse> => {
         const { page, size } = pagination;
 
-        const response = await this.apiInstance.get<KuboApiPaginated<CosmeticDto>>(
+        const response = await this.apiInstance.get<CosmeticPaginatedResponse>(
             `/kubo/cosmetic?page=${page}&size=${size}&type=${type}`,
             { headers: { Authorization: this.authToken } }
         );
