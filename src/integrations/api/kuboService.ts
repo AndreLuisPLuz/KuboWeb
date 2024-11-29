@@ -5,7 +5,7 @@ import { AuthResponse } from "./types/auth/authResponses";
 import { PaginationOptions } from "./types/shared/paginationOptions";
 import { CreateKuboPayload } from "./types/kubo/kuboRequests";
 import { KuboApiPaginated, KuboApiResponse } from "./types/shared/response";
-import { CosmeticDto, CosmeticPaginatedResponse } from "./types/cosmetics/cosmeticResponses";
+import { CosmeticPaginatedResponse } from "./types/cosmetics/cosmeticResponses";
 
 import MissingTokenError from "./errors/missingTokenError";
 import ServerError from "./errors/serverError";
