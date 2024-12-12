@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import PageContent from "../../components/PageContent";
 import Footer from "../../components/Footer";
@@ -11,10 +11,26 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/User";
 import { Container, ImageContainer, MascoteContainer, MascotPreview } from "../Personalize/style";
 import Mouth from "../../components/Mouth";
+import { KuboDto } from "../../integrations/api/types/kubo/kuboResponses";
+import KuboService from "../../integrations/api/kuboService";
 
 const Home = (): ReactNode => {
+    const kuboService = KuboService.getInstance();
+    
+    const [kubo, setKubo] = useState<KuboDto>({} as KuboDto);
     const user = useContext(UserContext);
-    const kubo = user.kubo;
+
+    useEffect(() => {
+        if (user.kubo !== undefined) {
+            setKubo(user.kubo);
+            return;
+        }
+    
+        kuboService.fetchKubo().then(result => {
+            user.storeKubo(result);
+            setKubo(result);
+        })
+    }, [])
 
     const Navigate = useNavigate()
 

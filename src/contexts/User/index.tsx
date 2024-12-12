@@ -3,7 +3,7 @@ import { KuboDto } from "../../integrations/api/types/kubo/kuboResponses";
 
 type User = {
     userId: string;
-    kubo: KuboDto;
+    kubo?: KuboDto;
     storeUser: (user: Omit<User, "storeUser" | "storeKubo">) => void;
     storeKubo: (kubo: KuboDto) => void;
 };
@@ -16,7 +16,7 @@ type UserProviderProps = {
 
 const UserProvider = (props: UserProviderProps): ReactNode => {
     const [userId, setUserId] = useState<string>("");
-    const [kubo, setKubo] = useState<KuboDto>({} as KuboDto);
+    const [kubo, setKubo] = useState<KuboDto | undefined>(undefined);
 
     const storeUser = (user: Omit<User, "storeUser" | "storeKubo">) => {
         setUserId(user.userId);
