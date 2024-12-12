@@ -20,7 +20,7 @@ const Home = (): ReactNode => {
 
     function HandleClickLeft(){
         Navigate("/bedroom")
-      }
+    }
     
     function HandleClickRight(){
         Navigate("/kitchen")
