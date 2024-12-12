@@ -10,6 +10,7 @@ import { CosmeticPaginatedResponse } from "./types/cosmetics/cosmeticResponses";
 import MissingTokenError from "./errors/missingTokenError";
 import ServerError from "./errors/serverError";
 import ClientError from "./errors/clientError";
+import { KuboDto } from "./types/kubo/kuboResponses";
 
 class KuboService {
     private static service: KuboService | null = null;
@@ -73,7 +74,7 @@ class KuboService {
     };
 
     public createKubo = async(payload: CreateKuboPayload): Promise<boolean> => {
-        const response = await this.apiInstance.post<KuboApiResponse<void>>(
+        const response = await this.apiInstance.post<KuboApiResponse<{ id: string }>>(
             "/kubo", payload,
             { headers: { Authorization: this.authToken } }
         );
@@ -82,6 +83,15 @@ class KuboService {
 
         return (response.status == 201);
     };
+
+    public fetchKubo = async(): Promise<KuboDto> => {
+        const response = await this.apiInstance.post<KuboApiResponse<KuboDto>>(
+            "/kubo",
+            { headers: { Authorization: this.authToken } }
+        );
+
+        return response.data.data;
+    }
 
     private throwIfErrorStatus = (
             response: Axios.AxiosXHR<KuboApiPaginated<any>> | Axios.AxiosXHR<KuboApiResponse<any>>
