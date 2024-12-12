@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import Navbar from "../../components/Navbar";
 import PageContent from "../../components/PageContent";
 import Footer from "../../components/Footer";
@@ -8,8 +8,13 @@ import ArrowLeft from "../../assets/SetaEsquerda.png"
 import Seta from "../../assets/Seta.png"
 import { ArrowRight } from "../../components/Arrow Rigth";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/User";
+import { Container, ImageContainer, MascoteContainer, MascotPreview } from "../Personalize/style";
+import Mouth from "../../components/Mouth";
 
 const Home = (): ReactNode => {
+    const user = useContext(UserContext);
+    const kubo = user.kubo;
 
     const Navigate = useNavigate()
 
@@ -25,7 +30,19 @@ const Home = (): ReactNode => {
             <Navbar/>
             <PageContent variant="squeeze">
                 <Arrow src={ArrowLeft} onClick={HandleClickLeft}/>
-                <Home1/>
+                <Home1>
+                    <MascoteContainer>
+                        <Container>
+                            <MascotPreview backgroundColor={kubo.color}>
+                                <ImageContainer>
+                                    <img src={ kubo.hat.imagePath }/>
+                                </ImageContainer>
+                                <img src={ kubo.eyes.imagePath }/>
+                                <Mouth />
+                            </MascotPreview>
+                        </Container>
+                    </MascoteContainer>
+                </Home1>
                 <ArrowRight src={Seta} onClick={HandleClickRight}/>
             </PageContent>
             <Footer/>
