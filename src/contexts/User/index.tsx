@@ -1,8 +1,11 @@
 import { createContext, ReactNode, useState } from "react";
+import { KuboDto } from "../../integrations/api/types/kubo/kuboResponses";
 
 type User = {
     userId: string;
-    storeUser: (user: Omit<User, "storeUser">) => void;
+    kubo: KuboDto;
+    storeUser: (user: Omit<User, "storeUser" | "storeKubo">) => void;
+    storeKubo: (kubo: KuboDto) => void;
 };
 
 const UserContext = createContext<User>({} as User);
@@ -13,13 +16,18 @@ type UserProviderProps = {
 
 const UserProvider = (props: UserProviderProps): ReactNode => {
     const [userId, setUserId] = useState<string>("");
+    const [kubo, setKubo] = useState<KuboDto>({} as KuboDto);
 
-    const storeUser = (user: Omit<User, "storeUser">) => {
+    const storeUser = (user: Omit<User, "storeUser" | "storeKubo">) => {
         setUserId(user.userId);
     };
 
+    const storeKubo = (kubo: KuboDto) => {
+        setKubo(kubo);
+    }
+
     return (
-        <UserContext.Provider value={{ userId, storeUser }}>
+        <UserContext.Provider value={{ userId, kubo, storeUser, storeKubo }}>
             { props.children }
         </UserContext.Provider>
     );
