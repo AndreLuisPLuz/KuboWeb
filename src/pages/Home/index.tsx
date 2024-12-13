@@ -16,18 +16,20 @@ import KuboService from "../../integrations/api/kuboService";
 
 const Home = (): ReactNode => {
     const kuboService = KuboService.getInstance();
-    
+
     const [kubo, setKubo] = useState<KuboDto>({} as KuboDto);
     const user = useContext(UserContext);
 
     useEffect(() => {
         if (user.kubo !== undefined) {
+            console.log(user.kubo);
             setKubo(user.kubo);
             return;
         }
     
         kuboService.fetchKubo().then(result => {
             user.storeKubo(result);
+            console.log(user.kubo);
             setKubo(result);
         })
     }, [])
@@ -51,9 +53,9 @@ const Home = (): ReactNode => {
                         <Container>
                             <MascotPreview backgroundColor={kubo.color}>
                                 <ImageContainer>
-                                    <img src={ kubo.hat.imagePath }/>
+                                    <img src={ kubo.hat?.imagePath || "" }/>
                                 </ImageContainer>
-                                <img src={ kubo.eyes.imagePath }/>
+                                <img src={ kubo.eyes?.imagePath || "" }/>
                                 <Mouth />
                             </MascotPreview>
                         </Container>

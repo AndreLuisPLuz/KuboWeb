@@ -85,10 +85,12 @@ class KuboService {
     };
 
     public fetchKubo = async(): Promise<KuboDto> => {
-        const response = await this.apiInstance.post<KuboApiResponse<KuboDto>>(
+        const response = await this.apiInstance.get<KuboApiResponse<KuboDto>>(
             "/kubo",
             { headers: { Authorization: this.authToken } }
         );
+
+        this.throwIfErrorStatus(response);
 
         return response.data.data;
     }
